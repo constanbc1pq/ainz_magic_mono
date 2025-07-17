@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: articulate-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: articulate123
+      MYSQL_DATABASE: articulate_hub
+      MYSQL_USER: articulate_user
+      MYSQL_PASSWORD: articulate_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: articulate-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # 可选：Backend服务（如果需要Docker化）
+  # backend:
+  #   build: ./backend
+  #   container_name: articulate-backend
+  #   restart: unless-stopped
+  #   ports:
+  #     - "5720:5720"
+  #   depends_on:
+  #     mysql:
+  #       condition: service_healthy
+  #     redis:
+  #       condition: service_started
+  #   environment:
+  #     - DATABASE_URL=mysql://articulate_user:articulate_pass@mysql:3306/articulate_hub
+  #     - REDIS_URL=redis://redis:6379
+  #   volumes:
+  #     - ./backend/uploads:/app/uploads
+  #     - ./backend/results:/app/results
+  #   command: sh -c "npx prisma migrate deploy && npm run start:prod"
+
+volumes:
+  mysql_data:
+  redis_data:

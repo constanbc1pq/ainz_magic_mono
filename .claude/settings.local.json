@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm:*)",
+      "Bash(sudo apt-get:*)",
+      "Bash(mkdir:*)",
+      "Bash(yarn start)",
+      "Bash(ls:*)",
+      "Bash(sudo systemctl start:*)",
+      "Bash(sudo systemctl:*)",
+      "Bash(sudo docker:*)",
+      "Bash(sudo docker compose:*)",
+      "Bash(find:*)",
+      "WebFetch(domain:docs.runpod.io)",
+      "WebFetch(domain:huggingface.co)",
+      "WebFetch(domain:www.gradio.app)",
+      "Bash(cp:*)"
+    ],
+    "deny": []
+  }
+}

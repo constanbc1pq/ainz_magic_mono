@@ -1,0 +1,101 @@
+services:
+  # MySQL数据库
+  mysql:
+    image: mysql:8.0
+    container_name: articulate-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: articulate_hub
+      MYSQL_USER: articulate_user
+      MYSQL_PASSWORD: articulate_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - articulate-network
+
+  # Redis缓存
+  redis:
+    image: redis:7-alpine
+    container_name: articulate-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - articulate-network
+
+  # NestJS后端服务
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: articulate-backend
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=mysql://articulate_user:articulate_password@mysql:3306/articulate_hub
+      - REDIS_URL=redis://redis:6379
+      - JWT_SECRET=your-secret-key
+      - AI_SERVICE_URL=http://ai-service:8000
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - ./uploads:/app/uploads
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - articulate-network
+
+  # Python AI服务
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile.dev
+    container_name: articulate-ai-service
+    environment:
+      - PYTHONPATH=/app
+      - MAGICARTICULATE_PATH=/app/magicarticulate
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./ai-service:/app
+      - ../MagicArticulate:/app/magicarticulate
+      - ./uploads:/app/uploads
+    depends_on:
+      - redis
+    networks:
+      - articulate-network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  # React前端服务
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: articulate-frontend
+    environment:
+      - REACT_APP_API_URL=http://localhost:3001
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - articulate-network
+
+volumes:
+  mysql_data:
+
+networks:
+  articulate-network:
+    driver: bridge
