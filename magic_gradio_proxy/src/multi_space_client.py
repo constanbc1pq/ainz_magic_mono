@@ -1,4 +1,30 @@
-"""Multi-Space client manager for handling both TRELLIS and MagicArticulate"""
+"""Multi-Space client manager for handling both TRELLIS and MagicArticulate
+
+流式传输设计理念 (Streaming File Transfer Design):
+==========================================
+
+核心原则：Magic Gradio Proxy 作为纯粹的数据传输管道，不在本地存储任何文件
+
+文件流处理流程：
+1. 上传流程：Backend → base64编码 → Proxy → 临时文件(仅供gradio_client) → HF Space
+2. 下载流程：HF Space → 临时文件 → 立即读取+base64编码 → 立即删除 → Backend
+
+详细流程：
+- Image to 3D Model: 图片base64 → TRELLIS Space → GLB模型base64 + 预览视频base64
+- 3D Model to Skeleton: 模型base64 → MagicArticulate Space → OBJ/TXT/ZIP文件base64
+
+临时文件策略：
+- 仅在gradio_client API需要时创建临时文件
+- 文件创建后立即调用HF Space API
+- 处理完成后立即删除临时文件
+- 所有结果文件立即读取转换为base64并删除源文件
+
+与测试脚本的区别：
+- 正式流程：Backend发送base64 → Proxy流式处理 → Backend接收base64并保存
+- 测试脚本：直接读取本地文件 → 上传测试 → 下载到本地文件
+- 两者都使用handle_file()函数确保与HF Space的兼容性
+- 正式流程创建临时文件仅供handle_file()使用，立即删除
+"""
 
 import base64
 import tempfile
@@ -83,7 +109,7 @@ class MultiSpaceClient:
         image_content = base64.b64decode(image_content_base64)
         file_logger.info(f"📄 Decoded image size: {len(image_content)} bytes")
         
-        # Create temporary file for the image
+        # Create temporary file for gradio_client (immediate cleanup)
         # Handle cases where image_name might not have an extension or might be a stream
         suffix = Path(image_name).suffix if image_name else '.png'
         if not suffix:
@@ -93,7 +119,7 @@ class MultiSpaceClient:
             tmp_file.write(image_content)
             tmp_file_path = tmp_file.name
         
-        file_logger.info(f"📁 Created temporary file: {tmp_file_path}")
+        file_logger.info(f"📁 Created temporary file for gradio_client: {tmp_file_path}")
         
         try:
             file_logger.info(f"🚀 Processing image {image_name} through TRELLIS Space")
@@ -108,19 +134,19 @@ class MultiSpaceClient:
             file_logger.info("📋 Step 2: Preprocessing image...")
             try:
                 preprocessed = client.predict(
-                    image=handle_file(tmp_file_path),
+                    image=handle_file(tmp_file_path),  # Use handle_file for compatibility
                     api_name="/preprocess_image"
                 )
                 file_logger.info(f"✅ Image preprocessed successfully: {preprocessed}")
             except Exception as e:
                 file_logger.warning(f"⚠️ Preprocess image failed, continuing without preprocessing: {e}")
             
-            # Generate and extract GLB directly using handle_file
+            # Generate and extract GLB using handle_file for compatibility
             file_logger.info("📋 Step 3: Generating 3D model...")
             file_logger.info(f"🔧 Using parameters: mesh_simplify={mesh_simplify}, texture_size={texture_size}")
             
             result = client.predict(
-                image=handle_file(tmp_file_path),
+                image=handle_file(tmp_file_path),  # Use handle_file for compatibility
                 multiimages=[],  # Single image mode
                 seed=seed,
                 ss_guidance_strength=ss_guidance_strength,
@@ -186,7 +212,7 @@ class MultiSpaceClient:
                 'error': str(e)
             }
         finally:
-            # Clean up temporary file
+            # Clean up temporary file immediately
             try:
                 Path(tmp_file_path).unlink()
                 file_logger.info(f"🧹 Cleaned up temporary file: {tmp_file_path}")
@@ -209,7 +235,7 @@ class MultiSpaceClient:
         # Decode base64 content
         model_content = base64.b64decode(model_content_base64)
         
-        # Create temporary file for the model
+        # Create temporary file for gradio_client (immediate cleanup)
         suffix = Path(model_name).suffix
         with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp_file:
             tmp_file.write(model_content)
@@ -221,7 +247,7 @@ class MultiSpaceClient:
             # Call the MagicArticulate API
             # Using fn_index=5 to match the working test script
             result = client.predict(
-                handle_file(tmp_file_path),  # model_file parameter
+                handle_file(tmp_file_path),  # Use handle_file for compatibility
                 text_prompt,                  # prompt parameter 
                 confidence,                   # confidence parameter
                 preview,                      # preview parameter
@@ -308,11 +334,12 @@ class MultiSpaceClient:
                 'error': str(e)
             }
         finally:
-            # Clean up temporary file
+            # Clean up temporary file immediately
             try:
                 Path(tmp_file_path).unlink()
-            except:
-                pass
+                file_logger.info(f"🧹 Cleaned up temporary file: {tmp_file_path}")
+            except Exception as cleanup_error:
+                file_logger.warning(f"⚠️ Failed to cleanup temporary file: {cleanup_error}")
     
     async def reconnect_all(self):
         """Reconnect to all spaces"""

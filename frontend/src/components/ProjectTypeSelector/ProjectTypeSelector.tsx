@@ -206,7 +206,12 @@ const ProjectTypeSelector: React.FC<ProjectTypeSelectorProps> = ({ onTypeSelect 
               value={projectName}
               onChange={(e) => setProjectName(e.target.value)}
               placeholder={t('project.typeSelector.projectNamePlaceholder')}
-              sx={{ mb: 2 }}
+              sx={{ 
+                mb: 2,
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: 'white !important'
+                }
+              }}
               required
             />
             
@@ -218,6 +223,11 @@ const ProjectTypeSelector: React.FC<ProjectTypeSelectorProps> = ({ onTypeSelect 
               placeholder={t('project.typeSelector.projectDescriptionPlaceholder')}
               multiline
               rows={3}
+              sx={{ 
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: 'white !important'
+                }
+              }}
             />
           </CardContent>
         </Card>

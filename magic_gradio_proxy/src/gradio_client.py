@@ -1,4 +1,29 @@
-"""Gradio client wrapper for Magic Articulate Space - Streaming Mode"""
+"""Gradio client wrapper for Magic Articulate Space - Streaming Mode
+
+流式传输设计理念 (Streaming File Transfer Design):
+==========================================
+
+核心原则：Magic Gradio Proxy 作为纯粹的数据传输管道，不在本地存储任何文件
+
+MagicArticulate处理流程：
+1. 上传流程：Backend → base64编码 → Proxy → 临时文件(仅供gradio_client) → MagicArticulate Space
+2. 下载流程：MagicArticulate Space → 临时文件 → 立即读取+base64编码 → 立即删除 → Backend
+
+详细流程：
+- 3D Model to Skeleton: 模型base64 → MagicArticulate Space → OBJ/TXT/ZIP文件base64
+
+临时文件策略：
+- 仅在gradio_client API需要时创建临时文件
+- 文件创建后立即调用MagicArticulate Space API
+- 处理完成后立即删除临时文件
+- 所有结果文件立即读取转换为base64并删除源文件
+
+与测试脚本的区别：
+- 正式流程：Backend发送base64 → Proxy流式处理 → Backend接收base64并保存
+- 测试脚本：直接读取本地文件 → 上传测试 → 下载到本地文件
+- 测试脚本使用handle_file()函数是因为直接处理本地文件路径
+- 正式流程使用直接文件路径是因为临时文件已经创建好了
+"""
 
 from gradio_client import Client
 try:
