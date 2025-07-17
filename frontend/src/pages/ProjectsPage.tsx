@@ -99,6 +99,8 @@ const ProjectsPage: React.FC = () => {
         return 'warning';
       case 'FAILED':
         return 'error';
+      case 'CREATED':
+        return 'info';
       default:
         return 'default';
     }
@@ -269,11 +271,14 @@ const ProjectsPage: React.FC = () => {
           <DialogTitle>{t('projects.deleteDialog.title')}</DialogTitle>
           <DialogContent>
             <Typography>
-              {t('projects.deleteDialog.message', { name: deleteDialog.project?.name })}
+              {t('projects.deleteDialog.message', { name: deleteDialog.project?.name || 'Unknown' })}
             </Typography>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => setDeleteDialog({ open: false, project: null })}>
+            <Button 
+              onClick={() => setDeleteDialog({ open: false, project: null })}
+              sx={{ color: 'white' }}
+            >
               {t('projects.deleteDialog.cancel')}
             </Button>
             <Button

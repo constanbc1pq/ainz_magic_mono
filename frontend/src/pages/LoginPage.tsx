@@ -30,6 +30,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
+import Logo from '../components/Logo/Logo';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -132,6 +133,9 @@ const LoginPage: React.FC = () => {
       >
         <Paper elevation={3} sx={{ p: 4, width: '100%' }}>
           <Box sx={{ textAlign: 'center', mb: 3 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+              <Logo size={60} clickable={true} />
+            </Box>
             <Typography variant="h4" component="h1" gutterBottom>
               {t('auth.loginTitle')}
             </Typography>

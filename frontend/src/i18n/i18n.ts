@@ -35,8 +35,8 @@ const resources = {
       "auth": {
         "login": "Login",
         "register": "Register",
-        "loginTitle": "Login to AnziMagic",
-        "registerTitle": "Register for AnziMagic",
+        "loginTitle": "Login to AinzMagic",
+        "registerTitle": "Register for AinzMagic",
         "subtitle": "AI-powered 3D Model Skeleton Generation Platform",
         "email": "Email",
         "password": "Password",
@@ -78,7 +78,7 @@ const resources = {
       "home": {
         "title": "AI-Powered 3D Model Skeleton Generation Platform",
         "subtitle": "Bring static 3D models to life with AI-driven intelligent skeleton generation technology",
-        "description": "AnziMagic is a revolutionary AI platform that can automatically generate professional-grade skeleton structures for your 3D models. Whether you're a game developer, animator, or 3D artist, you can find the perfect solution here.",
+        "description": "AinzMagic is a revolutionary AI platform that can automatically generate professional-grade skeleton structures for your 3D models. Whether you're a game developer, animator, or 3D artist, you can find the perfect solution here.",
         "getStarted": "Get Started",
         "learnMore": "Learn More",
         "features": {
@@ -120,11 +120,11 @@ const resources = {
         },
         "cta": {
           "title": "Ready to Start?",
-          "subtitle": "Join thousands of developers and creators who are already using AnziMagic",
+          "subtitle": "Join thousands of developers and creators who are already using AinzMagic",
           "start": "Start Now"
         },
         "footer": {
-          "description": "AnziMagic is a revolutionary AI platform that can automatically generate professional-grade skeleton structures for your 3D models.",
+          "description": "AinzMagic is a revolutionary AI platform that can automatically generate professional-grade skeleton structures for your 3D models.",
           "products": "Products",
           "imageToModel": "Image to 3D Model",
           "modelToSkeleton": "Model to Skeleton",
@@ -143,7 +143,7 @@ const resources = {
           "privacy": "Privacy Policy",
           "terms": "Terms of Service",
           "security": "Security",
-          "copyright": "© 2024 AnziMagic. All rights reserved.",
+          "copyright": "© 2024 AinzMagic. All rights reserved.",
           "beta": "Beta",
           "aiPowered": "AI Powered"
         }
@@ -163,7 +163,7 @@ const resources = {
         "viewProjects": "View Projects",
         "recentActivity": "Recent Activity",
         "noActivity": "No recent activity",
-        "createFirstProject": "Create your first project to start using AnziMagic",
+        "createFirstProject": "Create your first project to start using AinzMagic",
         "registerTime": "Register Time",
         "profileDesc": "View and edit your profile settings",
         "quickUpload": "Quick Upload",
@@ -231,7 +231,7 @@ const resources = {
         },
         "deleteDialog": {
           "title": "Confirm Delete",
-          "message": 'Are you sure you want to delete project "{name}"? This action cannot be undone.',
+          "message": 'Are you sure you want to delete project "{{name}}"? This action cannot be undone.',
           "cancel": "Cancel",
           "confirm": "Delete"
         },
@@ -340,8 +340,8 @@ const resources = {
       "auth": {
         "login": "登录",
         "register": "注册",
-        "loginTitle": "登录 AnziMagic",
-        "registerTitle": "注册 AnziMagic",
+        "loginTitle": "登录 AinzMagic",
+        "registerTitle": "注册 AinzMagic",
         "subtitle": "AI驱动的3D模型骨骼生成平台",
         "email": "邮箱",
         "password": "密码",
@@ -383,7 +383,7 @@ const resources = {
       "home": {
         "title": "AI驱动的3D模型骨骼生成平台",
         "subtitle": "让静态3D模型拥有生命力，AI驱动的智能骨骼生成技术",
-        "description": "AnziMagic是一个革命性的AI平台，能够自动为您的3D模型生成专业级的骨骼结构。无论您是游戏开发者、动画师还是3D艺术家，都能在这里找到完美的解决方案。",
+        "description": "AinzMagic是一个革命性的AI平台，能够自动为您的3D模型生成专业级的骨骼结构。无论您是游戏开发者、动画师还是3D艺术家，都能在这里找到完美的解决方案。",
         "getStarted": "开始使用",
         "learnMore": "了解更多",
         "features": {
@@ -425,11 +425,11 @@ const resources = {
         },
         "cta": {
           "title": "准备开始了吗？",
-          "subtitle": "加入成千上万已在使用AnziMagic的开发者和创作者",
+          "subtitle": "加入成千上万已在使用AinzMagic的开发者和创作者",
           "start": "立即开始"
         },
         "footer": {
-          "description": "AnziMagic是一个革命性的AI平台，能够自动为您的3D模型生成专业级的骨骼结构。",
+          "description": "AinzMagic是一个革命性的AI平台，能够自动为您的3D模型生成专业级的骨骼结构。",
           "products": "产品",
           "imageToModel": "图片生成3D模型",
           "modelToSkeleton": "模型生成骨骼",
@@ -448,7 +448,7 @@ const resources = {
           "privacy": "隐私政策",
           "terms": "服务条款",
           "security": "安全",
-          "copyright": "© 2024 AnziMagic. 版权所有。",
+          "copyright": "© 2024 AinzMagic. 版权所有。",
           "beta": "测试版",
           "aiPowered": "AI驱动"
         }
@@ -468,7 +468,7 @@ const resources = {
         "viewProjects": "查看项目",
         "recentActivity": "最近活动",
         "noActivity": "暂无最近活动记录",
-        "createFirstProject": "创建您的第一个项目来开始使用AnziMagic",
+        "createFirstProject": "创建您的第一个项目来开始使用AinzMagic",
         "registerTime": "注册时间",
         "profileDesc": "查看和编辑您的个人资料设置",
         "quickUpload": "快速上传",
@@ -536,7 +536,7 @@ const resources = {
         },
         "deleteDialog": {
           "title": "确认删除",
-          "message": '确定要删除项目 "{name}" 吗？此操作无法撤销。',
+          "message": '确定要删除项目 "{{name}}" 吗？此操作无法撤销。',
           "cancel": "取消",
           "confirm": "删除"
         },

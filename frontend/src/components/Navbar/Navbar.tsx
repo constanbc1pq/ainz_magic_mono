@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
           }}
           onClick={handleLogoClick}
         >
-          AnziMagic
+          AinzMagic
         </Typography>
         
         <Box sx={{ display: 'flex', gap: 2 }}>

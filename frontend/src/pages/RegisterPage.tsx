@@ -22,6 +22,7 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import Logo from '../components/Logo/Logo';
 
 const RegisterPage: React.FC = () => {
   const { t } = useTranslation();
@@ -80,6 +81,9 @@ const RegisterPage: React.FC = () => {
       >
         <Paper elevation={3} sx={{ p: 4, width: '100%' }}>
           <Box sx={{ textAlign: 'center', mb: 3 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+              <Logo size={60} clickable={true} />
+            </Box>
             <Typography variant="h4" component="h1" gutterBottom>
               {t('auth.registerTitle')}
             </Typography>

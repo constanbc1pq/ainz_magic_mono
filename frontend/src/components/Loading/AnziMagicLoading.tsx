@@ -3,7 +3,7 @@ import { Box, CircularProgress, Typography } from '@mui/material';
 import { keyframes } from '@mui/system';
 import { useTheme } from '@mui/material/styles';
 
-interface AnziMagicLoadingProps {
+interface AinzMagicLoadingProps {
   message?: string;
   size?: 'small' | 'medium' | 'large';
 }
@@ -35,8 +35,8 @@ const glowAnimation = keyframes`
   }
 `;
 
-const AnziMagicLoading: React.FC<AnziMagicLoadingProps> = ({ 
-  message = "AnziMagic正在施展魔法...", 
+const AinzMagicLoading: React.FC<AinzMagicLoadingProps> = ({ 
+  message = "AinzMagic正在施展魔法...", 
   size = 'medium' 
 }) => {
   const theme = useTheme();
@@ -161,4 +161,4 @@ const AnziMagicLoading: React.FC<AnziMagicLoadingProps> = ({
   );
 };
 
-export default AnziMagicLoading;
+export default AinzMagicLoading;

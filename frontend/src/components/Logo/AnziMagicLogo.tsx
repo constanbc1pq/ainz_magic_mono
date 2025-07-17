@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-interface AnziMagicLogoProps {
+interface AinzMagicLogoProps {
   size?: 'small' | 'medium' | 'large';
   showText?: boolean;
 }
@@ -54,7 +54,7 @@ const LogoText = styled(Typography)<{ size: 'small' | 'medium' | 'large' }>(({ t
   };
 });
 
-const AnziMagicLogo: React.FC<AnziMagicLogoProps> = ({ 
+const AinzMagicLogo: React.FC<AinzMagicLogoProps> = ({ 
   size = 'medium', 
   showText = true 
 }) => {
@@ -196,11 +196,11 @@ const AnziMagicLogo: React.FC<AnziMagicLogoProps> = ({
       
       {showText && (
         <LogoText size={size} variant="h4">
-          AnziMagic
+          AinzMagic
         </LogoText>
       )}
     </LogoContainer>
   );
 };
 
-export default AnziMagicLogo;
+export default AinzMagicLogo;

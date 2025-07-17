@@ -30,21 +30,30 @@ import {
   Star as StarIcon,
 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
-import AnziMagicLogo from '../components/Logo/AnziMagicLogo';
+import Logo from '../components/Logo/Logo';
 import { useTranslation } from 'react-i18next';
 
 const Box = MuiBox as any;
 
 const HeroSection = styled(Box)(({ theme }) => ({
   background: `linear-gradient(135deg, 
-    ${alpha(theme.palette.primary.main, 0.1)} 0%, 
-    ${alpha(theme.palette.secondary.main, 0.1)} 50%, 
-    ${alpha(theme.palette.primary.main, 0.1)} 100%)`,
+    ${alpha('#1a1a1a', 0.8)} 0%, 
+    ${alpha('#2d1810', 0.85)} 50%, 
+    ${alpha('#1a1a1a', 0.8)} 100%),
+    url('/bg1.png')`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center center',
+  backgroundRepeat: 'no-repeat',
   borderRadius: theme.shape.borderRadius,
-  padding: theme.spacing(8, 4),
+  padding: theme.spacing(10, 4),
   textAlign: 'center',
   position: 'relative',
   overflow: 'hidden',
+  minHeight: '70vh',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
   '&::before': {
     content: '""',
     position: 'absolute',
@@ -52,7 +61,21 @@ const HeroSection = styled(Box)(({ theme }) => ({
     left: 0,
     right: 0,
     bottom: 0,
-    background: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23d4af37" fill-opacity="0.05"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+    background: `linear-gradient(135deg, 
+      ${alpha('#ff6b35', 0.1)} 0%, 
+      ${alpha('#f7931e', 0.15)} 25%,
+      ${alpha('#ffcc02', 0.1)} 50%,
+      ${alpha('#ff6b35', 0.1)} 100%)`,
+    opacity: 0.7,
+  },
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffd700" fill-opacity="0.08"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
     opacity: 0.3,
   },
 }));
@@ -157,26 +180,142 @@ const HomePage: React.FC = () => {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Hero Section */}
       <HeroSection>
-        <AnziMagicLogo size="large" showText={true} />
-        <Typography variant="h2" component="h1" gutterBottom sx={{ mt: 3, mb: 2 }}>
+        <Box sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          mb: 3,
+          position: 'relative',
+          zIndex: 2
+        }}>
+          <Logo size={80} clickable={false} />
+          <Typography 
+            variant="h3" 
+            component="div"
+            sx={{ 
+              mt: 2,
+              fontWeight: 'bold',
+              color: '#ffd700',
+              textShadow: '0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.4)',
+              letterSpacing: '0.5px'
+            }}
+          >
+            AinzMagic
+          </Typography>
+        </Box>
+        <Typography 
+          variant="h2" 
+          component="h1" 
+          gutterBottom 
+          sx={{ 
+            mt: 3, 
+            mb: 2,
+            position: 'relative',
+            zIndex: 2,
+            color: '#ffffff',
+            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.3)',
+            fontWeight: 'bold'
+          }}
+        >
           {t('home.title')}
         </Typography>
-        <Typography variant="h5" component="h2" gutterBottom color="text.secondary" sx={{ mb: 3 }}>
+        <Typography 
+          variant="h5" 
+          component="h2" 
+          gutterBottom 
+          sx={{ 
+            mb: 3,
+            position: 'relative',
+            zIndex: 2,
+            color: '#f5f5f5',
+            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
+            fontWeight: 500
+          }}
+        >
           {t('home.subtitle')}
         </Typography>
-        <Typography variant="body1" sx={{ mb: 4, maxWidth: '800px', mx: 'auto' }}>
+        <Typography 
+          variant="body1" 
+          sx={{ 
+            mb: 4, 
+            maxWidth: '800px', 
+            mx: 'auto',
+            position: 'relative',
+            zIndex: 2,
+            color: '#e0e0e0',
+            textShadow: '1px 1px 2px rgba(0, 0, 0, 0.9)',
+            fontSize: '1.1rem',
+            lineHeight: 1.6
+          }}
+        >
           {t('home.description')}
         </Typography>
 
-        <Stack direction="row" spacing={2} justifyContent="center" sx={{ mb: 4 }}>
-          <Chip label={t('home.chips.imageToModel')} variant="filled" />
-          <Chip label={t('home.chips.modelToSkeleton')} variant="filled" />
-          <Chip label={t('home.chips.realtimeAI')} variant="filled" />
+        <Stack 
+          direction="row" 
+          spacing={2} 
+          justifyContent="center" 
+          sx={{ 
+            mb: 4,
+            position: 'relative',
+            zIndex: 2
+          }}
+        >
+          <Chip 
+            label={t('home.chips.imageToModel')} 
+            variant="filled" 
+            sx={{ 
+              backgroundColor: alpha('#ff6b35', 0.9),
+              color: 'white',
+              fontWeight: 'bold',
+              boxShadow: '0 4px 12px rgba(255, 107, 53, 0.3)',
+              '&:hover': {
+                backgroundColor: '#ff6b35',
+                boxShadow: '0 6px 16px rgba(255, 107, 53, 0.5)',
+              }
+            }}
+          />
+          <Chip 
+            label={t('home.chips.modelToSkeleton')} 
+            variant="filled" 
+            sx={{ 
+              backgroundColor: alpha('#ffcc02', 0.9),
+              color: 'black',
+              fontWeight: 'bold',
+              boxShadow: '0 4px 12px rgba(255, 204, 2, 0.3)',
+              '&:hover': {
+                backgroundColor: '#ffcc02',
+                boxShadow: '0 6px 16px rgba(255, 204, 2, 0.5)',
+              }
+            }}
+          />
+          <Chip 
+            label={t('home.chips.realtimeAI')} 
+            variant="filled" 
+            sx={{ 
+              backgroundColor: alpha('#f7931e', 0.9),
+              color: 'white',
+              fontWeight: 'bold',
+              boxShadow: '0 4px 12px rgba(247, 147, 30, 0.3)',
+              '&:hover': {
+                backgroundColor: '#f7931e',
+                boxShadow: '0 6px 16px rgba(247, 147, 30, 0.5)',
+              }
+            }}
+          />
         </Stack>
 
         {isAuthenticated ? (
-          <Box sx={{ mt: 2 }}>
-            <Typography variant="h6" gutterBottom>
+          <Box sx={{ mt: 2, position: 'relative', zIndex: 2 }}>
+            <Typography 
+              variant="h6" 
+              gutterBottom
+              sx={{ 
+                color: '#ffd700',
+                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.8)',
+                fontWeight: 'bold'
+              }}
+            >
               {t('dashboard.welcome', { username: user?.username })}
             </Typography>
             <Button
@@ -184,7 +323,18 @@ const HomePage: React.FC = () => {
               size="large"
               startIcon={<DashboardIcon />}
               onClick={() => navigate('/dashboard')}
-              sx={{ mr: 2 }}
+              sx={{ 
+                mr: 2,
+                backgroundColor: '#ff6b35',
+                color: 'white',
+                fontWeight: 'bold',
+                boxShadow: '0 6px 20px rgba(255, 107, 53, 0.4)',
+                '&:hover': {
+                  backgroundColor: '#e55a2e',
+                  boxShadow: '0 8px 25px rgba(255, 107, 53, 0.6)',
+                  transform: 'translateY(-2px)',
+                }
+              }}
             >
               {t('nav.dashboard')}
             </Button>
@@ -192,18 +342,43 @@ const HomePage: React.FC = () => {
               variant="outlined"
               size="large"
               onClick={() => navigate('/project/new')}
+              sx={{
+                borderColor: '#ffd700',
+                color: '#ffd700',
+                fontWeight: 'bold',
+                boxShadow: '0 4px 15px rgba(255, 215, 0, 0.3)',
+                '&:hover': {
+                  borderColor: '#ffcc02',
+                  backgroundColor: alpha('#ffd700', 0.1),
+                  boxShadow: '0 6px 20px rgba(255, 215, 0, 0.5)',
+                  transform: 'translateY(-2px)',
+                }
+              }}
             >
               {t('nav.createProject')}
             </Button>
           </Box>
         ) : (
-          <Grid container spacing={2} sx={{ mt: 2, justifyContent: 'center' }}>
+          <Grid container spacing={2} sx={{ mt: 2, justifyContent: 'center', position: 'relative', zIndex: 2 }}>
             <Grid item>
               <Button
                 variant="contained"
                 size="large"
                 startIcon={<RegisterIcon />}
                 onClick={handleGetStarted}
+                sx={{
+                  backgroundColor: '#ff6b35',
+                  color: 'white',
+                  fontWeight: 'bold',
+                  fontSize: '1.1rem',
+                  padding: '12px 32px',
+                  boxShadow: '0 8px 25px rgba(255, 107, 53, 0.4)',
+                  '&:hover': {
+                    backgroundColor: '#e55a2e',
+                    boxShadow: '0 12px 35px rgba(255, 107, 53, 0.6)',
+                    transform: 'translateY(-3px)',
+                  }
+                }}
               >
                 {t('home.getStarted')}
               </Button>
@@ -214,6 +389,20 @@ const HomePage: React.FC = () => {
                 size="large"
                 startIcon={<LoginIcon />}
                 onClick={() => navigate('/login')}
+                sx={{
+                  borderColor: '#ffd700',
+                  color: '#ffd700',
+                  fontWeight: 'bold',
+                  fontSize: '1.1rem',
+                  padding: '12px 32px',
+                  boxShadow: '0 6px 20px rgba(255, 215, 0, 0.3)',
+                  '&:hover': {
+                    borderColor: '#ffcc02',
+                    backgroundColor: alpha('#ffd700', 0.1),
+                    boxShadow: '0 8px 25px rgba(255, 215, 0, 0.5)',
+                    transform: 'translateY(-3px)',
+                  }
+                }}
               >
                 {t('home.learnMore')}
               </Button>
@@ -388,7 +577,20 @@ const HomePage: React.FC = () => {
         <Container maxWidth="lg">
           <Grid container spacing={4}>
             <Grid item xs={12} md={4}>
-              <AnziMagicLogo size="small" showText={true} />
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                <Logo size={40} clickable={true} />
+                <Typography 
+                  variant="h6" 
+                  sx={{ 
+                    ml: 2,
+                    fontWeight: 'bold',
+                    color: 'secondary.main',
+                    textShadow: '0 0 8px rgba(255, 215, 0, 0.3)'
+                  }}
+                >
+                  AinzMagic
+                </Typography>
+              </Box>
               <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
                 {t('home.footer.description')}
               </Typography>

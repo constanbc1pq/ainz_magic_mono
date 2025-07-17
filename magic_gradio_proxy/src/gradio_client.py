@@ -1,6 +1,6 @@
 """Gradio client wrapper for Magic Articulate Space - Streaming Mode"""
 
-from gradio_client import Client, handle_file
+from gradio_client import Client
 try:
     from gradio_client.data_classes import FileData
 except ImportError:
@@ -95,7 +95,7 @@ class GradioClientManager:
             try:
                 # Call the Gradio Space with correct parameters
                 result = self.client.predict(
-                    handle_file(tmp_file_path),    # Use handle_file for proper file upload
+                    tmp_file_path,    # Direct file path
                     text_prompt,                   # Text prompt
                     confidence,                    # Confidence threshold
                     preview,                       # Generate preview

@@ -2,12 +2,12 @@ import React from 'react';
 import { Card, CardProps, Box, useTheme, alpha } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-interface AnziMagicCardProps extends Omit<CardProps, 'variant'> {
-  anziVariant?: 'default' | 'elevated' | 'outlined' | 'glowing';
+interface AinzMagicCardProps extends Omit<CardProps, 'variant'> {
+  ainzVariant?: 'default' | 'elevated' | 'outlined' | 'glowing';
   glowColor?: string;
 }
 
-const StyledCard = styled(Card)<{ anziVariant?: string; glowColor?: string }>(({ theme, anziVariant, glowColor }) => {
+const StyledCard = styled(Card)<{ ainzVariant?: string; glowColor?: string }>(({ theme, ainzVariant, glowColor }) => {
   const baseStyles = {
     background: `linear-gradient(135deg, 
       ${alpha(theme.palette.background.paper, 0.95)} 0%, 
@@ -71,13 +71,13 @@ const StyledCard = styled(Card)<{ anziVariant?: string; glowColor?: string }>(({
 
   return {
     ...baseStyles,
-    ...(anziVariant && variantStyles[anziVariant as keyof typeof variantStyles] || {}),
+    ...(ainzVariant && variantStyles[ainzVariant as keyof typeof variantStyles] || {}),
   };
 });
 
-const AnziMagicCard: React.FC<AnziMagicCardProps> = ({ 
+const AinzMagicCard: React.FC<AinzMagicCardProps> = ({ 
   children, 
-  anziVariant = 'default',
+  ainzVariant = 'default',
   glowColor,
   ...props 
 }) => {
@@ -86,7 +86,7 @@ const AnziMagicCard: React.FC<AnziMagicCardProps> = ({
   return (
     <StyledCard 
       {...props}
-      anziVariant={anziVariant} 
+      ainzVariant={ainzVariant} 
       glowColor={glowColor}
     >
       {children}
@@ -157,4 +157,4 @@ const AnziMagicCard: React.FC<AnziMagicCardProps> = ({
   );
 };
 
-export default AnziMagicCard;
+export default AinzMagicCard;

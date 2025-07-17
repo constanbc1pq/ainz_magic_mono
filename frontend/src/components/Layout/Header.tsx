@@ -22,7 +22,7 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import AnziMagicLogo from '../Logo/AnziMagicLogo';
+import Logo from '../Logo/Logo';
 import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 
@@ -59,11 +59,26 @@ const Header: React.FC = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Box
-          sx={{ flexGrow: 1, cursor: 'pointer' }}
-          onClick={() => navigate(isAuthenticated ? '/dashboard' : '/')}
-        >
-          <AnziMagicLogo size="small" showText={true} />
+        <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+          <Logo size={40} clickable={true} />
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              ml: 2,
+              fontWeight: 'bold',
+              color: 'secondary.main',
+              textShadow: '0 0 8px rgba(255, 215, 0, 0.3)',
+              cursor: 'pointer',
+              '&:hover': {
+                color: 'secondary.light',
+                textShadow: '0 0 12px rgba(255, 215, 0, 0.5)',
+              }
+            }}
+            onClick={() => navigate(isAuthenticated ? '/dashboard' : '/')}
+          >
+            AinzMagic
+          </Typography>
         </Box>
 
         {isAuthenticated ? (
@@ -158,10 +173,10 @@ const Header: React.FC = () => {
         ) : (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <LanguageSwitcher />
-            <Button color="inherit" onClick={() => navigate('/login')} sx={{ ml: 1 }}>
+            <Button color="inherit" onClick={() => navigate('/login')} sx={{ ml: 1, mr: 1 }}>
               {t('auth.login')}
             </Button>
-            <Button color="inherit" onClick={() => navigate('/register')}>
+            <Button color="inherit" onClick={() => navigate('/register')} sx={{ ml: 1 }}>
               {t('auth.register')}
             </Button>
           </Box>
