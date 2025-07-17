@@ -21,8 +21,10 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const RegisterPage: React.FC = () => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -39,18 +41,18 @@ const RegisterPage: React.FC = () => {
 
     // 验证密码确认
     if (password !== confirmPassword) {
-      setError('密码确认不匹配');
+      setError(t('auth.passwordMismatch'));
       return;
     }
 
     // 验证密码强度
     if (password.length < 8) {
-      setError('密码至少需要8个字符');
+      setError(t('auth.passwordTooShort'));
       return;
     }
 
     if (!/^(?=.*[a-zA-Z])(?=.*\d)/.test(password)) {
-      setError('密码必须包含至少一个字母和一个数字');
+      setError(t('auth.passwordMustContain'));
       return;
     }
 
@@ -58,7 +60,7 @@ const RegisterPage: React.FC = () => {
       await register({ email, username, password });
       navigate('/dashboard');
     } catch (err: any) {
-      setError(err.response?.data?.message || '注册失败，请重试');
+      setError(err.response?.data?.message || t('auth.registerError'));
     }
   };
 
@@ -79,10 +81,10 @@ const RegisterPage: React.FC = () => {
         <Paper elevation={3} sx={{ p: 4, width: '100%' }}>
           <Box sx={{ textAlign: 'center', mb: 3 }}>
             <Typography variant="h4" component="h1" gutterBottom>
-              注册 ArticulateHub
+              {t('auth.registerTitle')}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              创建账户，开始使用AI模型关节生成服务
+              {t('auth.createAccount')}
             </Typography>
           </Box>
 
@@ -95,7 +97,7 @@ const RegisterPage: React.FC = () => {
           <Box component="form" onSubmit={handleSubmit}>
             <TextField
               fullWidth
-              label="邮箱"
+              label={t('auth.email')}
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -112,7 +114,7 @@ const RegisterPage: React.FC = () => {
 
             <TextField
               fullWidth
-              label="用户名"
+              label={t('auth.username')}
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               margin="normal"
@@ -124,12 +126,12 @@ const RegisterPage: React.FC = () => {
                   </InputAdornment>
                 ),
               }}
-              helperText="3-20个字符，支持字母、数字、下划线和中文"
+              helperText={t('auth.usernameHelper')}
             />
             
             <TextField
               fullWidth
-              label="密码"
+              label={t('auth.password')}
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -152,12 +154,12 @@ const RegisterPage: React.FC = () => {
                   </InputAdornment>
                 ),
               }}
-              helperText="至少8个字符，包含字母和数字"
+              helperText={t('auth.passwordHelper')}
             />
 
             <TextField
               fullWidth
-              label="确认密码"
+              label={t('auth.confirmPassword')}
               type={showPassword ? 'text' : 'password'}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -179,14 +181,14 @@ const RegisterPage: React.FC = () => {
               sx={{ mt: 3, mb: 2 }}
               disabled={loading}
             >
-              {loading ? <CircularProgress size={24} /> : '注册'}
+              {loading ? <CircularProgress size={24} /> : t('auth.register')}
             </Button>
 
             <Box sx={{ textAlign: 'center' }}>
               <Typography variant="body2">
-                已有账户？{' '}
+                {t('auth.hasAccount')}{' '}
                 <Link component={RouterLink} to="/login" variant="body2">
-                  立即登录
+                  {t('auth.loginNow')}
                 </Link>
               </Typography>
             </Box>

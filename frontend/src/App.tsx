@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { GlobalStyles } from '@mui/material';
 
 import HomePage from './pages/HomePage';
 import ProjectPage from './pages/ProjectPage';
@@ -13,30 +14,14 @@ import DashboardPage from './pages/DashboardPage';
 import Header from './components/Layout/Header';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext';
-
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#6366f1',
-    },
-    secondary: {
-      main: '#ec4899',
-    },
-    background: {
-      default: '#0f172a',
-      paper: '#1e293b',
-    },
-  },
-  typography: {
-    fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-  },
-});
+import { overlordTheme, overlordKeyframes } from './theme/overlordTheme';
+import './i18n/i18n';
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={overlordTheme}>
       <CssBaseline />
+      <GlobalStyles styles={overlordKeyframes} />
       <Router>
         <AuthProvider>
           <div className="App">

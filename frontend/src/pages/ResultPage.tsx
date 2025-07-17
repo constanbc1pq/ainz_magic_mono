@@ -29,6 +29,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useProjectStatus } from '../hooks/useProjectStatus';
 import SimpleModelPreview from '../components/ModelUpload/SimpleModelPreview';
 import api from '../services/api';
+import { useTranslation } from 'react-i18next';
 
 enum ProjectType {
   IMAGE_TO_3D = 'IMAGE_TO_3D',
@@ -46,6 +47,7 @@ interface ProjectInfo {
 }
 
 const ResultPage: React.FC = () => {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [projectInfo, setProjectInfo] = useState<ProjectInfo | null>(null);
@@ -161,7 +163,7 @@ const ResultPage: React.FC = () => {
         const response = await api.get(`/api/projects/${id}`);
         setProjectInfo(response.data);
       } catch (error) {
-        console.error('获取项目信息失败:', error);
+        console.error(t('result.loadingProject'), error);
       } finally {
         setLoadingProject(false);
       }
@@ -185,18 +187,18 @@ const ResultPage: React.FC = () => {
 
   // 获取状态消息
   const getStatusMessage = () => {
-    if (!status) return '正在获取状态...';
-    if (!projectInfo) return '正在获取项目信息...';
+    if (!status) return t('result.status.gettingStatus');
+    if (!projectInfo) return t('result.status.gettingProjectInfo');
     
     const isImageTo3D = projectInfo.type === ProjectType.IMAGE_TO_3D;
     
     switch (status.status) {
-      case 'created': return '任务已创建';
-      case 'uploaded': return '文件上传完成';
-      case 'processing': return isImageTo3D ? '正在生成3D模型...' : '正在生成骨骼结构...';
-      case 'completed': return isImageTo3D ? '3D模型生成完成！' : '骨骼生成完成！';
-      case 'failed': return '处理失败';
-      default: return '未知状态';
+      case 'created': return t('result.status.created');
+      case 'uploaded': return t('result.status.uploaded');
+      case 'processing': return isImageTo3D ? t('result.processing.imageToModel') : t('result.processing.modelToSkeleton');
+      case 'completed': return isImageTo3D ? t('result.status.completed') : t('result.status.completed');
+      case 'failed': return t('result.status.failed');
+      default: return t('result.status.unknown');
     }
   };
 
@@ -228,8 +230,8 @@ const ResultPage: React.FC = () => {
       link.remove();
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('下载失败:', error);
-      alert('下载失败，请稍后重试');
+      console.error(t('result.download.failed'), error);
+      alert(t('result.download.failed'));
     }
   };
 
@@ -276,7 +278,7 @@ const ResultPage: React.FC = () => {
           setImageUrl(url);
         } catch (err) {
           console.error(`❌ 图片加载失败:`, err);
-          setError('图片加载失败');
+          setError(t('result.download.imageLoadFailed'));
         } finally {
           setLoading(false);
         }
@@ -333,7 +335,7 @@ const ResultPage: React.FC = () => {
       }}>
         <img
           src={imageUrl}
-          alt="原始输入图片"
+          alt={t('result.completed.originalImage')}
           style={{
             width: '100%',
             height: '100%',
@@ -343,7 +345,7 @@ const ResultPage: React.FC = () => {
           onLoad={() => console.log('图片加载成功')}
           onError={(e) => {
             console.error('图片显示错误:', e);
-            setError('图片显示失败');
+            setError(t('result.download.imageLoadFailed'));
           }}
         />
       </Box>
@@ -365,7 +367,7 @@ const ResultPage: React.FC = () => {
           setVideoUrl(url);
         } catch (err) {
           console.error(`❌ 视频加载失败:`, err);
-          setError('视频加载失败');
+          setError(t('result.download.videoLoadFailed'));
         } finally {
           setLoading(false);
         }
@@ -441,7 +443,7 @@ const ResultPage: React.FC = () => {
             });
           }}
         >
-          您的浏览器不支持视频播放。
+          {t('result.download.browserNotSupported')}
         </video>
       </Box>
     );
@@ -462,7 +464,7 @@ const ResultPage: React.FC = () => {
           setModelUrl(url);
         } catch (err) {
           console.error(`❌ 模型加载失败:`, err);
-          setError('模型加载失败');
+          setError(t('result.download.modelLoadFailed'));
         } finally {
           setLoading(false);
         }
@@ -537,7 +539,7 @@ const ResultPage: React.FC = () => {
       <>
         <Alert severity="success" sx={{ mb: 3 }}>
           <Typography variant="body1">
-            🎉 {isImageTo3D ? '3D模型生成完成！您的图片已成功转换为3D模型。' : '骨骼生成完成！您的3D模型已成功生成关节结构。'}
+            {isImageTo3D ? t('result.completed.imageSuccess') : t('result.completed.skeletonSuccess')}
           </Typography>
         </Alert>
         
@@ -551,10 +553,10 @@ const ResultPage: React.FC = () => {
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
                       <ImageIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
-                      原始输入图片
+                      {t('result.completed.originalImage')}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" gutterBottom>
-                      用于生成3D模型的原始图片
+                      {t('result.completed.originalImageDesc')}
                     </Typography>
                     
                     {/* 原始图片内嵌预览 */}
@@ -568,7 +570,7 @@ const ResultPage: React.FC = () => {
                       fullWidth
                       onClick={() => handleDownload('input_image', 'original_image.jpg')}
                     >
-                      下载原始图片
+                      {t('result.completed.downloadOriginalImage')}
                     </Button>
                   </CardContent>
                 </Card>
@@ -579,10 +581,10 @@ const ResultPage: React.FC = () => {
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
                       <ModelIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
-                      3D模型预览
+                      {t('result.completed.modelPreview')}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" gutterBottom>
-                      GLB格式的3D模型文件，可用于各种3D应用
+                      {t('result.completed.modelPreviewDesc')}
                     </Typography>
                     
                     {/* 3D模型内嵌预览 */}
@@ -596,7 +598,7 @@ const ResultPage: React.FC = () => {
                       fullWidth
                       onClick={() => handleDownload('glb', 'model.glb')}
                     >
-                      下载GLB模型
+                      {t('result.completed.downloadGLB')}
                     </Button>
                   </CardContent>
                 </Card>
@@ -607,10 +609,10 @@ const ResultPage: React.FC = () => {
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
                       <PlayIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
-                      360度预览视频
+                      {t('result.completed.previewVideo')}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" gutterBottom>
-                      3D模型的360度旋转预览视频
+                      {t('result.completed.previewVideoDesc')}
                     </Typography>
                     
                     {/* 视频内嵌预览 */}
@@ -624,7 +626,7 @@ const ResultPage: React.FC = () => {
                       fullWidth
                       onClick={() => handleDownload('preview_video', 'preview.mp4')}
                     >
-                      下载预览视频
+                      {t('result.completed.downloadPreviewVideo')}
                     </Button>
                   </CardContent>
                 </Card>
@@ -638,10 +640,10 @@ const ResultPage: React.FC = () => {
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
                       <ModelIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
-                      原始输入模型
+                      {t('result.completed.originalModel')}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" gutterBottom>
-                      用于生成骨骼的原始3D模型
+                      {t('result.completed.originalModelDesc')}
                     </Typography>
                     
                     {/* 原始模型内嵌预览 */}
@@ -655,7 +657,7 @@ const ResultPage: React.FC = () => {
                       fullWidth
                       onClick={() => handleDownload('input_model', 'original_model.glb')}
                     >
-                      下载原始模型
+                      {t('result.completed.downloadOriginalModel')}
                     </Button>
                   </CardContent>
                 </Card>
@@ -665,10 +667,10 @@ const ResultPage: React.FC = () => {
                 <Card>
                   <CardContent>
                     <Typography variant="h6" gutterBottom>
-                      骨骼结构预览
+                      {t('result.completed.skeletonPreview')}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" gutterBottom>
-                      生成的骨骼结构可视化预览
+                      {t('result.completed.skeletonPreviewDesc')}
                     </Typography>
                     
                     <Box sx={{ mb: 2 }}>
@@ -681,14 +683,14 @@ const ResultPage: React.FC = () => {
                         startIcon={<DownloadIcon />}
                         onClick={() => handleDownload('obj', 'skeleton.obj')}
                       >
-                        下载OBJ文件
+                        {t('result.completed.downloadOBJ')}
                       </Button>
                       <Button
                         variant="outlined"
                         startIcon={<DownloadIcon />}
                         onClick={() => handleDownload('zip', 'skeleton.zip')}
                       >
-                        下载完整包
+                        {t('result.completed.downloadZip')}
                       </Button>
                     </Box>
                   </CardContent>
@@ -711,10 +713,10 @@ const ResultPage: React.FC = () => {
       <Box sx={{ textAlign: 'center', py: 4 }}>
         <CircularProgress size={60} />
         <Typography variant="body1" sx={{ mt: 2 }}>
-          {isImageTo3D ? 'AI正在将您的图片转换为3D模型...' : 'AI正在分析您的3D模型结构...'}
+          {t('result.processing.aiProcessing')}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-          这个过程可能需要几分钟时间，请耐心等待
+          {t('result.processing.patientWait')}
         </Typography>
       </Box>
     );
@@ -726,7 +728,7 @@ const ResultPage: React.FC = () => {
         <Box sx={{ py: 4, textAlign: 'center' }}>
           <CircularProgress />
           <Typography variant="body1" sx={{ mt: 2 }}>
-            正在加载项目信息...
+            {t('result.loadingProject')}
           </Typography>
         </Box>
       </Container>
@@ -755,7 +757,7 @@ const ResultPage: React.FC = () => {
       <Container maxWidth="lg">
         <Box sx={{ py: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          处理结果 - {projectInfo?.name || `项目 ${id}`}
+          {t('result.title')} - {projectInfo?.name || `${t('result.project')} ${id}`}
         </Typography>
         
         {/* 项目类型指示器 */}
@@ -763,9 +765,16 @@ const ResultPage: React.FC = () => {
           <Box sx={{ mb: 3 }}>
             <Chip 
               icon={projectInfo.type === ProjectType.IMAGE_TO_3D ? <span>🐤</span> : <span>🦴</span>}
-              label={projectInfo.type === ProjectType.IMAGE_TO_3D ? '图片生成3D模型' : '3D模型生成骨骼'}
+              label={projectInfo.type === ProjectType.IMAGE_TO_3D ? t('project.typeSelector.imageToModel') : t('project.typeSelector.modelToSkeleton')}
               color={projectInfo.type === ProjectType.IMAGE_TO_3D ? 'secondary' : 'primary'}
-              variant="outlined"
+              variant="filled"
+              sx={{
+                color: 'white',
+                fontWeight: 600,
+                '& .MuiChip-icon': {
+                  color: 'white'
+                }
+              }}
             />
           </Box>
         )}
@@ -779,9 +788,9 @@ const ResultPage: React.FC = () => {
             </Typography>
             <Chip 
               label={
-                (!status || status.status === 'processing') ? '处理中' : 
-                status.status === 'completed' ? '已完成' : 
-                status.status === 'failed' ? '失败' : '未知'
+                (!status || status.status === 'processing') ? t('result.progress.processing') : 
+                status.status === 'completed' ? t('result.progress.completed') : 
+                status.status === 'failed' ? t('result.progress.failed') : t('result.progress.unknown')
               } 
               color={getStatusColor() as any}
               sx={{ ml: 'auto' }}
@@ -815,7 +824,7 @@ const ResultPage: React.FC = () => {
                 </Box>
               </Box>
               <Typography variant="body2" color="text.secondary">
-                {Math.round(getProgressPercentage())}% 完成
+                {Math.round(getProgressPercentage())}% {t('result.progress.completed')}
               </Typography>
             </Box>
           )}
@@ -827,7 +836,7 @@ const ResultPage: React.FC = () => {
           {status?.status === 'failed' && (
             <Alert severity="error" sx={{ mb: 3 }}>
               <Typography variant="body1">
-                处理失败：{error || '未知错误'}
+                {t('result.failed.message')}{error || t('result.failed.unknownError')}
               </Typography>
             </Alert>
           )}
@@ -839,11 +848,11 @@ const ResultPage: React.FC = () => {
         {/* 操作按钮 */}
         <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
           <Button variant="outlined" onClick={handleBackToHome}>
-            返回首页
+            {t('result.actions.backToHome')}
           </Button>
           
           <Button variant="outlined" onClick={handleBackToProjects}>
-            返回项目列表
+            {t('result.actions.backToProjects')}
           </Button>
           
           {status?.status === 'failed' && (
@@ -852,7 +861,7 @@ const ResultPage: React.FC = () => {
               color="error"
               onClick={refetch}
             >
-              重新检查
+              {t('result.failed.recheck')}
             </Button>
           )}
           
@@ -861,7 +870,7 @@ const ResultPage: React.FC = () => {
             onClick={handleCreateNew}
             color="secondary"
           >
-            创建新项目
+            {t('result.actions.createNew')}
           </Button>
         </Box>
       </Box>

@@ -156,4 +156,35 @@ export class AuthService {
 
     return user;
   }
+
+  async resetPassword(email: string, newPassword: string) {
+    // 查找用户
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      throw new BadRequestException('该邮箱未注册');
+    }
+
+    // 密码加密
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+
+    // 更新密码
+    const updatedUser = await this.prisma.user.update({
+      where: { email },
+      data: { 
+        password: hashedPassword,
+        updatedAt: new Date(),
+      },
+      select: {
+        id: true,
+        email: true,
+        username: true,
+      },
+    });
+
+    return updatedUser;
+  }
 }

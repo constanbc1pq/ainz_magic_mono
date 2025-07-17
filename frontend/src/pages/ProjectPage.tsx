@@ -6,8 +6,10 @@ import EnhancedModelUpload from '../components/ModelUpload/EnhancedModelUpload';
 import ImageUpload from '../components/ImageUpload/ImageUpload';
 import ProjectTypeSelector, { ProjectType } from '../components/ProjectTypeSelector/ProjectTypeSelector';
 import api from '../services/api';
+import { useTranslation } from 'react-i18next';
 
 const ProjectPage: React.FC = () => {
+  const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
   const navigate = useNavigate();
@@ -35,7 +37,7 @@ const ProjectPage: React.FC = () => {
         type: type
       });
     } catch (error) {
-      console.error('创建项目失败:', error);
+      console.error(t('project.createFailed'), error);
       // TODO: 显示错误提示
     }
   };
@@ -55,7 +57,7 @@ const ProjectPage: React.FC = () => {
           /* 新建项目，已选择类型，显示上传组件 */
           <>
             <Typography variant="h4" component="h1" gutterBottom>
-              新项目 - {currentProject.type === ProjectType.IMAGE_TO_3D ? '图片生成3D模型' : '3D模型生成骨骼'}
+              {t('project.newProject')} - {currentProject.type === ProjectType.IMAGE_TO_3D ? t('project.typeSelector.imageToModel') : t('project.typeSelector.modelToSkeleton')}
             </Typography>
             
             {/* 显示相应的上传组件 */}
@@ -76,10 +78,10 @@ const ProjectPage: React.FC = () => {
           /* 编辑现有项目 */
           <>
             <Typography variant="h4" component="h1" gutterBottom>
-              项目 {id}
+              {t('result.project')} {id}
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              正在加载项目...
+              {t('project.loadingProject')}
             </Typography>
           </>
         )}

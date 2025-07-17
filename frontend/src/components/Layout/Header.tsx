@@ -22,10 +22,14 @@ import {
 } from '@mui/icons-material';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import AnziMagicLogo from '../Logo/AnziMagicLogo';
+import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 
 const Header: React.FC = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -55,24 +59,23 @@ const Header: React.FC = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography
-          variant="h6"
-          component="div"
+        <Box
           sx={{ flexGrow: 1, cursor: 'pointer' }}
           onClick={() => navigate(isAuthenticated ? '/dashboard' : '/')}
         >
-          ArticulateHub
-        </Typography>
+          <AnziMagicLogo size="small" showText={true} />
+        </Box>
 
         {isAuthenticated ? (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <LanguageSwitcher />
             <Button
               color="inherit"
               startIcon={<AddIcon />}
               onClick={() => navigate('/project/new')}
-              sx={{ mr: 2 }}
+              sx={{ mr: 2, ml: 1 }}
             >
-              创建项目
+              {t('nav.createProject')}
             </Button>
 
             <IconButton
@@ -129,36 +132,37 @@ const Header: React.FC = () => {
                 <ListItemIcon>
                   <DashboardIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText>仪表盘</ListItemText>
+                <ListItemText>{t('nav.dashboard')}</ListItemText>
               </MenuItem>
               <MenuItem onClick={handleProfile}>
                 <ListItemIcon>
                   <PersonIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText>个人资料</ListItemText>
+                <ListItemText>{t('nav.profile')}</ListItemText>
               </MenuItem>
               <MenuItem onClick={() => navigate('/settings')}>
                 <ListItemIcon>
                   <SettingsIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText>设置</ListItemText>
+                <ListItemText>{t('nav.settings')}</ListItemText>
               </MenuItem>
               <Divider />
               <MenuItem onClick={handleLogout}>
                 <ListItemIcon>
                   <LogoutIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText>退出登录</ListItemText>
+                <ListItemText>{t('common.logout')}</ListItemText>
               </MenuItem>
             </Menu>
           </Box>
         ) : (
-          <Box>
-            <Button color="inherit" onClick={() => navigate('/login')}>
-              登录
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <LanguageSwitcher />
+            <Button color="inherit" onClick={() => navigate('/login')} sx={{ ml: 1 }}>
+              {t('auth.login')}
             </Button>
             <Button color="inherit" onClick={() => navigate('/register')}>
-              注册
+              {t('auth.register')}
             </Button>
           </Box>
         )}

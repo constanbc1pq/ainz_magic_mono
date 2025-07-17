@@ -72,4 +72,19 @@ export class AuthController {
       message: '退出登录成功',
     };
   }
+
+  @Post('reset-password')
+  @HttpCode(HttpStatus.OK)
+  async resetPassword(@Body() body: { email: string; newPassword: string }) {
+    // 测试阶段：直接重置密码，无需验证
+    const user = await this.authService.resetPassword(body.email, body.newPassword);
+    return {
+      success: true,
+      message: '密码重置成功',
+      data: {
+        email: user.email,
+        username: user.username,
+      },
+    };
+  }
 }

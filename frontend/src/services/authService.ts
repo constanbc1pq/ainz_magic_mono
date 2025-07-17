@@ -106,6 +106,15 @@ class AuthService {
       return false;
     }
   }
+
+  // 重置密码
+  async resetPassword(email: string, newPassword: string): Promise<void> {
+    const response = await api.post('/api/auth/reset-password', {
+      email,
+      newPassword,
+    });
+    return response.data;
+  }
 }
 
 export default new AuthService();

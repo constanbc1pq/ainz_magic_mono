@@ -358,12 +358,12 @@ const SimpleModelPreview: React.FC<SimpleModelPreviewProps> = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          bgcolor: 'grey.100',
+          bgcolor: 'background.paper',
           border: '1px dashed',
-          borderColor: 'grey.400'
+          borderColor: 'primary.main'
         }}
       >
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.primary">
           选择文件后将显示3D预览
         </Typography>
       </Paper>
@@ -395,11 +395,11 @@ const SimpleModelPreview: React.FC<SimpleModelPreviewProps> = ({
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            bgcolor: 'rgba(255, 255, 255, 0.8)'
+            bgcolor: 'rgba(0, 0, 0, 0.8)'
           }}
         >
-          <CircularProgress size={40} />
-          <Typography variant="body2" sx={{ mt: 1 }}>
+          <CircularProgress size={40} sx={{ color: 'primary.main' }} />
+          <Typography variant="body2" sx={{ mt: 1, color: 'white' }}>
             正在加载模型...
           </Typography>
         </Box>
@@ -416,10 +416,10 @@ const SimpleModelPreview: React.FC<SimpleModelPreviewProps> = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            bgcolor: 'rgba(255, 255, 255, 0.8)'
+            bgcolor: 'rgba(0, 0, 0, 0.8)'
           }}
         >
-          <Typography variant="body2" color="error">
+          <Typography variant="body2" sx={{ color: '#ff6b6b' }}>
             {error}
           </Typography>
         </Box>

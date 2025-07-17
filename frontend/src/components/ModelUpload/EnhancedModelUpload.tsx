@@ -208,7 +208,7 @@ const EnhancedModelUpload: React.FC<ModelUploadProps> = ({
               </Box>
             ) : (
               <Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', p: 2, bgcolor: 'grey.50', borderRadius: 1 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', p: 2, bgcolor: 'background.paper', borderRadius: 1, border: '1px solid', borderColor: 'primary.main' }}>
                   <FileIcon sx={{ mr: 2, color: 'primary.main' }} />
                   <Box sx={{ flexGrow: 1 }}>
                     <Typography variant="subtitle1">{file.name}</Typography>

@@ -29,6 +29,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import api from '../services/api';
+import { useTranslation } from 'react-i18next';
 
 interface Project {
   id: number;
@@ -41,6 +42,7 @@ interface Project {
 }
 
 const ProjectsPage: React.FC = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { user } = useAuth();
   const [projects, setProjects] = useState<Project[]>([]);
@@ -61,7 +63,7 @@ const ProjectsPage: React.FC = () => {
       const response = await api.get('/api/projects');
       setProjects(response.data);
     } catch (error: any) {
-      setError('加载项目列表失败: ' + (error.response?.data?.message || error.message));
+      setError(t('projects.loadFailed') + (error.response?.data?.message || error.message));
     } finally {
       setLoading(false);
     }
@@ -85,7 +87,7 @@ const ProjectsPage: React.FC = () => {
       await loadProjects(); // 重新加载项目列表
       setDeleteDialog({ open: false, project: null });
     } catch (error: any) {
-      setError('删除项目失败: ' + (error.response?.data?.message || error.message));
+      setError(t('projects.deleteFailed') + (error.response?.data?.message || error.message));
     }
   };
 
@@ -105,13 +107,13 @@ const ProjectsPage: React.FC = () => {
   const getStatusText = (status: string) => {
     switch (status) {
       case 'CREATED':
-        return '已创建';
+        return t('projects.status.created');
       case 'PROCESSING':
-        return '处理中';
+        return t('projects.status.processing');
       case 'COMPLETED':
-        return '已完成';
+        return t('projects.status.completed');
       case 'FAILED':
-        return '失败';
+        return t('projects.status.failed');
       default:
         return status;
     }
@@ -122,7 +124,7 @@ const ProjectsPage: React.FC = () => {
   };
 
   const getProjectTypeText = (type: string) => {
-    return type === 'IMAGE_TO_3D' ? '图片生成3D模型' : '3D模型生成骨骼';
+    return type === 'IMAGE_TO_3D' ? t('project.typeSelector.imageToModel') : t('project.typeSelector.modelToSkeleton');
   };
 
   if (loading) {
@@ -130,7 +132,7 @@ const ProjectsPage: React.FC = () => {
       <Container maxWidth="lg">
         <Box sx={{ py: 4 }}>
           <Typography variant="h4" gutterBottom>
-            项目列表
+            {t('projects.list')}
           </Typography>
           <LinearProgress />
         </Box>
@@ -143,7 +145,7 @@ const ProjectsPage: React.FC = () => {
       <Box sx={{ py: 4 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
           <Typography variant="h4" component="h1">
-            我的项目
+            {t('projects.title')}
           </Typography>
           <Button
             variant="contained"
@@ -151,7 +153,7 @@ const ProjectsPage: React.FC = () => {
             onClick={handleCreateProject}
             size="large"
           >
-            创建新项目
+            {t('projects.createNew')}
           </Button>
         </Box>
 
@@ -164,17 +166,17 @@ const ProjectsPage: React.FC = () => {
         {projects.length === 0 ? (
           <Box sx={{ textAlign: 'center', py: 8 }}>
             <Typography variant="h6" color="text.secondary" gutterBottom>
-              暂无项目
+              {t('projects.noProjects')}
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-              创建您的第一个项目开始体验AI 3D建模功能
+              {t('projects.noProjectsDesc')}
             </Typography>
             <Button
               variant="contained"
               startIcon={<AddIcon />}
               onClick={handleCreateProject}
             >
-              创建项目
+              {t('projects.createProject')}
             </Button>
           </Box>
         ) : (
@@ -209,7 +211,7 @@ const ProjectsPage: React.FC = () => {
                     </Box>
 
                     <Typography variant="caption" color="text.secondary">
-                      创建时间: {new Date(project.createdAt).toLocaleString()}
+                      {t('projects.createdAt')}{new Date(project.createdAt).toLocaleString()}
                     </Typography>
                   </CardContent>
 
@@ -217,28 +219,33 @@ const ProjectsPage: React.FC = () => {
                     {project.status === 'COMPLETED' ? (
                       <Button
                         size="small"
+                        variant="contained"
+                        color="secondary"
                         startIcon={<ViewIcon />}
                         onClick={() => handleViewResult(project.id)}
                       >
-                        查看结果
+                        {t('projects.actions.viewResult')}
                       </Button>
                     ) : (
                       <Button
                         size="small"
+                        variant="outlined"
+                        color="primary"
                         startIcon={<EditIcon />}
                         onClick={() => handleViewProject(project.id)}
                       >
-                        {project.status === 'PROCESSING' ? '查看进度' : '继续编辑'}
+                        {project.status === 'PROCESSING' ? t('projects.actions.viewProgress') : t('projects.actions.continue')}
                       </Button>
                     )}
                     
                     <Button
                       size="small"
+                      variant="outlined"
                       startIcon={<DeleteIcon />}
                       color="error"
                       onClick={() => setDeleteDialog({ open: true, project })}
                     >
-                      删除
+                      {t('projects.actions.delete')}
                     </Button>
                   </CardActions>
                 </Card>
@@ -259,22 +266,22 @@ const ProjectsPage: React.FC = () => {
 
         {/* 删除确认对话框 */}
         <Dialog open={deleteDialog.open} onClose={() => setDeleteDialog({ open: false, project: null })}>
-          <DialogTitle>确认删除</DialogTitle>
+          <DialogTitle>{t('projects.deleteDialog.title')}</DialogTitle>
           <DialogContent>
             <Typography>
-              确定要删除项目 "{deleteDialog.project?.name}" 吗？此操作无法撤销。
+              {t('projects.deleteDialog.message', { name: deleteDialog.project?.name })}
             </Typography>
           </DialogContent>
           <DialogActions>
             <Button onClick={() => setDeleteDialog({ open: false, project: null })}>
-              取消
+              {t('projects.deleteDialog.cancel')}
             </Button>
             <Button
               onClick={() => deleteDialog.project && handleDeleteProject(deleteDialog.project)}
               color="error"
               variant="contained"
             >
-              删除
+              {t('projects.deleteDialog.confirm')}
             </Button>
           </DialogActions>
         </Dialog>

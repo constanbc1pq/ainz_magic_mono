@@ -1,5 +1,5 @@
 {
-  "name": "articulate-hub-frontend",
+  "name": "anzi-magic-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -15,9 +15,11 @@
     "@types/react-dropzone": "^5.1.0",
     "@types/three": "^0.158.0",
     "axios": "^1.6.0",
+    "i18next": "^25.3.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-dropzone": "^14.3.8",
+    "react-i18next": "^15.6.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.20.0",
     "react-scripts": "5.0.1",

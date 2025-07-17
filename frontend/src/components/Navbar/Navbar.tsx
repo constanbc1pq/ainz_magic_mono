@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
           }}
           onClick={handleLogoClick}
         >
-          ArticulateHub
+          AnziMagic
         </Typography>
         
         <Box sx={{ display: 'flex', gap: 2 }}>
