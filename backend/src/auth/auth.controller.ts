@@ -120,30 +120,4 @@ export class AuthController {
     };
   }
 
-  @Get('profile-test')
-  async getProfileTest() {
-    console.log('========================================');
-    console.log('🗺️ [Auth Controller] profile-test called - NO JWT REQUIRED');
-    console.log('========================================');
-    
-    try {
-      // 使用硬编码的用户ID 1进行测试
-      const profile = await this.authService.getProfile(1);
-      console.log('✅ [Auth Controller] Profile retrieved successfully:', profile);
-      
-      return {
-        success: true,
-        message: '获取用户信息成功',
-        data: profile,
-        note: 'This is a test endpoint without JWT validation'
-      };
-    } catch (error) {
-      console.error('❌ [Auth Controller] Profile test failed:', error);
-      return {
-        success: false,
-        message: '获取用户信息失败',
-        error: error.message,
-      };
-    }
-  }
 }
