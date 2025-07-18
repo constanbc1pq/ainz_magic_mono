@@ -7,8 +7,10 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { PrismaModule } from '../common/prisma/prisma.module';
 
-console.log('🔧 [Auth Module] Importing JwtStrategy...');
+console.log('🔧 [Auth Module] Loading AuthModule...');
+console.log('🔧 [Auth Module] JwtStrategy imported:', !!JwtStrategy);
 console.log('🔧 [Auth Module] JwtStrategy type:', typeof JwtStrategy);
+console.log('🔧 [Auth Module] JwtStrategy name:', JwtStrategy.name);
 
 @Module({
   imports: [
