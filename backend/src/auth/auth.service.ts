@@ -88,8 +88,11 @@ export class AuthService {
       username: user.username 
     };
 
-    return {
-      access_token: this.jwtService.sign(payload),
+    const token = this.jwtService.sign(payload);
+    console.log('🔑 [Auth Service] Token generated successfully');
+    
+    const result = {
+      access_token: token,
       user: {
         id: user.id,
         email: user.email,
@@ -98,6 +101,8 @@ export class AuthService {
         createdAt: user.createdAt,
       },
     };
+    console.log('✅ [Auth Service] Login result prepared');
+    return result;
   }
 
   async getProfile(userId: number) {

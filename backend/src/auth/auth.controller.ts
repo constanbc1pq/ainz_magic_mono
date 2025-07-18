@@ -32,12 +32,25 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: LoginDto) {
-    const result = await this.authService.login(loginDto);
-    return {
-      success: true,
-      message: '登录成功',
-      data: result,
-    };
+    console.log('🔐 [Auth Controller] login called');
+    console.log('📧 [Auth Controller] Email:', loginDto.email);
+    console.log('🔑 [Auth Controller] Password length:', loginDto.password?.length);
+    
+    try {
+      const result = await this.authService.login(loginDto);
+      console.log('✅ [Auth Controller] login successful');
+      console.log('🎫 [Auth Controller] Token generated:', result.access_token ? 'Yes' : 'No');
+      console.log('👤 [Auth Controller] User:', result.user);
+      
+      return {
+        success: true,
+        message: '登录成功',
+        data: result,
+      };
+    } catch (error) {
+      console.error('❌ [Auth Controller] login failed:', error);
+      throw error;
+    }
   }
 
   @UseGuards(AuthGuard('jwt'))
