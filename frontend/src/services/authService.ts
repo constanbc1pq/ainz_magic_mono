@@ -1,4 +1,5 @@
 import api from './api';
+import { debugLogger } from '../utils/debugLogger';
 
 export interface User {
   id: number;
@@ -52,7 +53,12 @@ class AuthService {
 
   // 检查是否已登录
   isAuthenticated(): boolean {
-    return this.getToken() !== null;
+    const token = this.getToken();
+    debugLogger.log('🔍 AuthService: isAuthenticated check', {
+      hasToken: token !== null,
+      tokenPreview: token ? token.substring(0, 30) + '...' : 'No token'
+    });
+    return token !== null;
   }
 
   // 用户注册
@@ -89,8 +95,10 @@ class AuthService {
       }
       
       console.log('🔑 AuthService: Storing token...');
+      debugLogger.log('🔑 AuthService: Storing token', authData.access_token.substring(0, 30) + '...');
       this.setToken(authData.access_token);
       console.log('✅ AuthService: Token stored successfully');
+      debugLogger.log('✅ AuthService: Token stored successfully');
       
       return authData;
     } catch (error: any) {
@@ -141,17 +149,26 @@ class AuthService {
   // 验证token是否有效
   async validateToken(): Promise<boolean> {
     console.log('🔍 AuthService: validateToken called');
+    debugLogger.log('🔍 AuthService: validateToken called');
     try {
       console.log('👤 AuthService: Getting profile to validate token...');
+      debugLogger.log('👤 AuthService: Getting profile to validate token...');
       const profile = await this.getProfile();
       console.log('✅ AuthService: Token validation successful');
       console.log('👤 AuthService: Profile data:', profile);
+      debugLogger.log('✅ AuthService: Token validation successful', profile);
       return true;
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ AuthService: Token validation failed');
       console.error('🔍 AuthService: Validation error:', error);
+      debugLogger.error('❌ AuthService: Token validation failed', {
+        message: error?.message,
+        status: error?.response?.status,
+        data: error?.response?.data
+      });
       this.clearToken();
       console.log('🗑️ AuthService: Token cleared due to validation failure');
+      debugLogger.log('🗑️ AuthService: Token cleared due to validation failure');
       return false;
     }
   }

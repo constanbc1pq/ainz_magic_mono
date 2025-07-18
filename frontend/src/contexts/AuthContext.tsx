@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import authService, { User, LoginCredentials, RegisterData, UpdateProfileData } from '../services/authService';
+import { debugLogger } from '../utils/debugLogger';
 
 interface AuthContextType {
   user: User | null;
@@ -26,12 +27,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       console.log('🔍 AuthContext: useEffect - Starting auth check');
+      debugLogger.log('🔍 AuthContext: useEffect - Starting auth check');
       // 将关键信息写入sessionStorage以便调试
       sessionStorage.setItem('debug_auth_start', new Date().toISOString());
       
       try {
         const isAuth = authService.isAuthenticated();
         console.log('🔍 AuthContext: isAuthenticated result:', isAuth);
+        debugLogger.log('🔍 AuthContext: isAuthenticated result', isAuth);
         sessionStorage.setItem('debug_is_authenticated', isAuth.toString());
         
         if (isAuth) {
@@ -41,10 +44,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           sessionStorage.setItem('debug_token_exists', token ? 'true' : 'false');
           
           console.log('🔍 AuthContext: Validating token...');
+          debugLogger.log('🔍 AuthContext: Validating token...');
           sessionStorage.setItem('debug_validating_token', 'true');
           
           const isValid = await authService.validateToken();
           console.log('🔍 AuthContext: Token validation result:', isValid);
+          debugLogger.log('🔍 AuthContext: Token validation result', isValid);
           sessionStorage.setItem('debug_token_valid', isValid.toString());
           
           if (isValid) {

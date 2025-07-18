@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { debugLogger } from '../utils/debugLogger';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5720';
 
@@ -18,7 +19,8 @@ console.log('✅ API: Axios instance created with baseURL:', API_BASE_URL);
 // 请求拦截器
 api.interceptors.request.use(
   (config) => {
-    console.log('🌐 API: Making request to:', (config.baseURL || '') + (config.url || ''));
+    const fullUrl = (config.baseURL || '') + (config.url || '');
+    console.log('🌐 API: Making request to:', fullUrl);
     console.log('🔗 API: Request method:', config.method?.toUpperCase());
     console.log('📦 API: Request data:', config.data);
     
@@ -27,9 +29,23 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
       console.log('🔑 API: Token added to request');
+      debugLogger.log('🔑 API: Token added to request', {
+        tokenPreview: token.substring(0, 30) + '...',
+        headerValue: config.headers.Authorization?.substring(0, 40) + '...'
+      });
     } else {
       console.log('⚠️ API: No token found in localStorage');
+      debugLogger.warn('⚠️ API: No token found in localStorage');
     }
+    
+    // 记录最终的请求信息
+    debugLogger.log('🌐 API Request (Final)', {
+      url: fullUrl,
+      method: config.method?.toUpperCase(),
+      hasToken: !!config.headers.Authorization,
+      headers: Object.keys(config.headers)
+    });
+    
     return config;
   },
   (error) => {

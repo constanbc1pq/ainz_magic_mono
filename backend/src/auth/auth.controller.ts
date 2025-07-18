@@ -56,7 +56,9 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt'))
   @Get('profile')
   async getProfile(@Request() req) {
-    console.log('👤 [Auth Controller] getProfile called');
+    console.log('========================================');
+    console.log('👤 [Auth Controller] getProfile called - TEST LOG');
+    console.log('========================================');
     console.log('👤 [Auth Controller] req.user:', req.user);
     
     const profile = await this.authService.getProfile(req.user.id);
@@ -103,6 +105,18 @@ export class AuthController {
         email: user.email,
         username: user.username,
       },
+    };
+  }
+
+  @Get('test')
+  async test() {
+    console.log('========================================');
+    console.log('🗺️ [Auth Controller] TEST endpoint called - CODE UPDATE VERIFIED');
+    console.log('========================================');
+    return {
+      success: true,
+      message: '测试成功',
+      timestamp: new Date().toISOString(),
     };
   }
 }

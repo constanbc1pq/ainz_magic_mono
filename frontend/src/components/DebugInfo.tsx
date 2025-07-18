@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Paper, Button, Collapse } from '@mui/material';
+import { Box, Typography, Paper, Button, Collapse, Tabs, Tab } from '@mui/material';
+import { debugLogger } from '../utils/debugLogger';
 
 const DebugInfo: React.FC = () => {
   const [debugInfo, setDebugInfo] = useState<any>({});
+  const [logs, setLogs] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
+  const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {
     const updateDebugInfo = () => {
@@ -26,7 +29,15 @@ const DebugInfo: React.FC = () => {
     };
 
     updateDebugInfo();
-    const interval = setInterval(updateDebugInfo, 1000);
+    const updateLogs = () => {
+      setLogs(debugLogger.getLogs());
+    };
+    updateLogs();
+    
+    const interval = setInterval(() => {
+      updateDebugInfo();
+      updateLogs();
+    }, 1000);
     
     return () => clearInterval(interval);
   }, []);
@@ -38,6 +49,8 @@ const DebugInfo: React.FC = () => {
       }
     });
     setDebugInfo({});
+    debugLogger.clear();
+    setLogs([]);
   };
 
   return (
@@ -51,24 +64,58 @@ const DebugInfo: React.FC = () => {
         Debug Info
       </Button>
       <Collapse in={open}>
-        <Paper sx={{ p: 2, mt: 1, maxWidth: 400, maxHeight: 300, overflow: 'auto' }}>
+        <Paper sx={{ p: 2, mt: 1, maxWidth: 600, maxHeight: 400, overflow: 'auto' }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
             <Typography variant="h6">Debug Info</Typography>
-            <Button size="small" onClick={clearDebugInfo}>Clear</Button>
+            <Button size="small" onClick={clearDebugInfo}>Clear All</Button>
           </Box>
-          {Object.keys(debugInfo).length === 0 ? (
-            <Typography variant="body2">No debug info available</Typography>
-          ) : (
-            Object.entries(debugInfo).map(([key, value]) => (
-              <Box key={key} sx={{ mb: 1 }}>
-                <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
-                  {key.replace('debug_', '')}:
-                </Typography>
-                <Typography variant="body2" sx={{ wordBreak: 'break-word' }}>
-                  {typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value)}
-                </Typography>
-              </Box>
-            ))
+          
+          <Tabs value={tabValue} onChange={(e, v) => setTabValue(v)} sx={{ mb: 2 }}>
+            <Tab label="Session Storage" />
+            <Tab label={`Logs (${logs.length})`} />
+          </Tabs>
+          
+          {tabValue === 0 && (
+            <Box>
+              {Object.keys(debugInfo).length === 0 ? (
+                <Typography variant="body2">No debug info available</Typography>
+              ) : (
+                Object.entries(debugInfo).map(([key, value]) => (
+                  <Box key={key} sx={{ mb: 1 }}>
+                    <Typography variant="caption" sx={{ fontWeight: 'bold' }}>
+                      {key.replace('debug_', '')}:
+                    </Typography>
+                    <Typography variant="body2" sx={{ wordBreak: 'break-word' }}>
+                      {typeof value === 'object' ? JSON.stringify(value, null, 2) : String(value)}
+                    </Typography>
+                  </Box>
+                ))
+              )}
+            </Box>
+          )}
+          
+          {tabValue === 1 && (
+            <Box>
+              {logs.length === 0 ? (
+                <Typography variant="body2">No logs available</Typography>
+              ) : (
+                logs.slice().reverse().map((log, index) => (
+                  <Box key={index} sx={{ mb: 1, p: 1, bgcolor: log.level === 'error' ? 'error.light' : 'background.default' }}>
+                    <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                      {new Date(log.timestamp).toLocaleTimeString()}
+                    </Typography>
+                    <Typography variant="body2" sx={{ fontWeight: log.level === 'error' ? 'bold' : 'normal' }}>
+                      {log.message}
+                    </Typography>
+                    {log.data && (
+                      <Typography variant="caption" sx={{ display: 'block', mt: 0.5, fontFamily: 'monospace' }}>
+                        {typeof log.data === 'object' ? JSON.stringify(log.data, null, 2) : String(log.data)}
+                      </Typography>
+                    )}
+                  </Box>
+                ))
+              )}
+            </Box>
           )}
         </Paper>
       </Collapse>

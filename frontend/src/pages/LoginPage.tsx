@@ -31,6 +31,7 @@ import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import Logo from '../components/Logo/Logo';
+import { debugLogger } from '../utils/debugLogger';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -63,8 +64,20 @@ const LoginPage: React.FC = () => {
 
     try {
       console.log('🚀 LoginPage: Calling login function...');
+      debugLogger.log('🚀 LoginPage: Calling login function', { email });
+      
       await login({ email, password });
+      
       console.log('✅ LoginPage: Login successful, navigating to dashboard');
+      debugLogger.log('✅ LoginPage: Login successful');
+      
+      // 检查token是否真的被存储
+      const storedToken = localStorage.getItem('access_token');
+      debugLogger.log('🔍 LoginPage: Token check after login', {
+        hasToken: !!storedToken,
+        tokenPreview: storedToken ? storedToken.substring(0, 30) + '...' : 'No token'
+      });
+      
       navigate('/dashboard');
     } catch (err: any) {
       console.error('❌ LoginPage: Login failed');
