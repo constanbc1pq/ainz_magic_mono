@@ -15,6 +15,7 @@ import Header from './components/Layout/Header';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext';
 import { overlordTheme, overlordKeyframes } from './theme/overlordTheme';
+import DebugInfo from './components/DebugInfo';
 import './i18n/i18n';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       <GlobalStyles styles={overlordKeyframes} />
       <Router>
         <AuthProvider>
+          <DebugInfo />
           <div className="App">
             <Header />
             <Routes>

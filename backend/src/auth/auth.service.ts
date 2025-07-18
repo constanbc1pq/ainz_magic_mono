@@ -101,6 +101,8 @@ export class AuthService {
   }
 
   async getProfile(userId: number) {
+    console.log('👤 [Auth Service] getProfile called with userId:', userId);
+    
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       select: {
@@ -119,10 +121,14 @@ export class AuthService {
       },
     });
 
+    console.log('👤 [Auth Service] user found in database:', user);
+    
     if (!user) {
+      console.log('👤 [Auth Service] User not found, throwing UnauthorizedException');
       throw new UnauthorizedException('用户不存在');
     }
 
+    console.log('👤 [Auth Service] returning user profile');
     return user;
   }
 

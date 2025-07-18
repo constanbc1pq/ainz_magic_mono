@@ -43,7 +43,12 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt'))
   @Get('profile')
   async getProfile(@Request() req) {
+    console.log('👤 [Auth Controller] getProfile called');
+    console.log('👤 [Auth Controller] req.user:', req.user);
+    
     const profile = await this.authService.getProfile(req.user.id);
+    console.log('👤 [Auth Controller] profile retrieved:', profile);
+    
     return {
       success: true,
       message: '获取用户信息成功',

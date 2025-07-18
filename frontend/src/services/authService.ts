@@ -63,13 +63,45 @@ class AuthService {
 
   // 用户登录
   async login(credentials: LoginCredentials): Promise<AuthResponse> {
-    const response = await api.post('/api/auth/login', credentials);
-    const authData = response.data.data;
+    console.log('🔐 AuthService: Login method called');
+    console.log('📧 AuthService: Email:', credentials.email);
+    console.log('🔒 AuthService: Password length:', credentials.password.length);
     
-    // 存储token
-    this.setToken(authData.access_token);
-    
-    return authData;
+    try {
+      console.log('🚀 AuthService: Making POST request to /api/auth/login');
+      const response = await api.post('/api/auth/login', credentials);
+      
+      console.log('✅ AuthService: API response received');
+      console.log('🔍 AuthService: Response status:', response.status);
+      console.log('🔍 AuthService: Response data:', response.data);
+      
+      const authData = response.data.data;
+      console.log('🔍 AuthService: Auth data extracted:', authData);
+      
+      if (!authData) {
+        console.error('❌ AuthService: No auth data in response');
+        throw new Error('No auth data received from server');
+      }
+      
+      if (!authData.access_token) {
+        console.error('❌ AuthService: No access token in auth data');
+        throw new Error('No access token received');
+      }
+      
+      console.log('🔑 AuthService: Storing token...');
+      this.setToken(authData.access_token);
+      console.log('✅ AuthService: Token stored successfully');
+      
+      return authData;
+    } catch (error: any) {
+      console.error('❌ AuthService: Login failed');
+      console.error('🔍 AuthService: Error details:', error);
+      console.error('🔍 AuthService: Error message:', error.message);
+      console.error('🔍 AuthService: Error response:', error.response);
+      console.error('🔍 AuthService: Error response status:', error.response?.status);
+      console.error('🔍 AuthService: Error response data:', error.response?.data);
+      throw error;
+    }
   }
 
   // 用户登出
@@ -86,8 +118,18 @@ class AuthService {
 
   // 获取用户信息
   async getProfile(): Promise<User> {
-    const response = await api.get('/api/auth/profile');
-    return response.data.data;
+    console.log('👤 AuthService: getProfile called');
+    try {
+      console.log('🚀 AuthService: Making request to /api/auth/profile');
+      const response = await api.get('/api/auth/profile');
+      console.log('✅ AuthService: Profile response received');
+      console.log('🔍 AuthService: Profile response:', response.data);
+      return response.data.data;
+    } catch (error) {
+      console.error('❌ AuthService: getProfile failed');
+      console.error('🔍 AuthService: Profile error:', error);
+      throw error;
+    }
   }
 
   // 更新用户信息
@@ -98,11 +140,18 @@ class AuthService {
 
   // 验证token是否有效
   async validateToken(): Promise<boolean> {
+    console.log('🔍 AuthService: validateToken called');
     try {
-      await this.getProfile();
+      console.log('👤 AuthService: Getting profile to validate token...');
+      const profile = await this.getProfile();
+      console.log('✅ AuthService: Token validation successful');
+      console.log('👤 AuthService: Profile data:', profile);
       return true;
     } catch (error) {
+      console.error('❌ AuthService: Token validation failed');
+      console.error('🔍 AuthService: Validation error:', error);
       this.clearToken();
+      console.log('🗑️ AuthService: Token cleared due to validation failure');
       return false;
     }
   }

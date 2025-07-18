@@ -57,10 +57,21 @@ const LoginPage: React.FC = () => {
     e.preventDefault();
     setError(null);
 
+    console.log('🔐 LoginPage: Form submitted');
+    console.log('📧 LoginPage: Email:', email);
+    console.log('🔒 LoginPage: Password length:', password.length);
+
     try {
+      console.log('🚀 LoginPage: Calling login function...');
       await login({ email, password });
+      console.log('✅ LoginPage: Login successful, navigating to dashboard');
       navigate('/dashboard');
     } catch (err: any) {
+      console.error('❌ LoginPage: Login failed');
+      console.error('🔍 LoginPage: Error object:', err);
+      console.error('🔍 LoginPage: Error response:', err.response);
+      console.error('🔍 LoginPage: Error response data:', err.response?.data);
+      console.error('🔍 LoginPage: Error message:', err.response?.data?.message);
       setError(err.response?.data?.message || '登录失败，请检查邮箱和密码');
     }
   };
