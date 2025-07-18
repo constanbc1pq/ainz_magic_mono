@@ -32,38 +32,18 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: LoginDto) {
-    console.log('🔐 [Auth Controller] login called');
-    console.log('📧 [Auth Controller] Email:', loginDto.email);
-    console.log('🔑 [Auth Controller] Password length:', loginDto.password?.length);
-    
-    try {
-      const result = await this.authService.login(loginDto);
-      console.log('✅ [Auth Controller] login successful');
-      console.log('🎫 [Auth Controller] Token generated:', result.access_token ? 'Yes' : 'No');
-      console.log('👤 [Auth Controller] User:', result.user);
-      
-      return {
-        success: true,
-        message: '登录成功',
-        data: result,
-      };
-    } catch (error) {
-      console.error('❌ [Auth Controller] login failed:', error);
-      throw error;
-    }
+    const result = await this.authService.login(loginDto);
+    return {
+      success: true,
+      message: '登录成功',
+      data: result,
+    };
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Get('profile')
   async getProfile(@Request() req) {
-    console.log('========================================');
-    console.log('👤 [Auth Controller] getProfile called - TEST LOG');
-    console.log('========================================');
-    console.log('👤 [Auth Controller] req.user:', req.user);
-    
     const profile = await this.authService.getProfile(req.user.id);
-    console.log('👤 [Auth Controller] profile retrieved:', profile);
-    
     return {
       success: true,
       message: '获取用户信息成功',
@@ -108,16 +88,5 @@ export class AuthController {
     };
   }
 
-  @Get('test')
-  async test() {
-    console.log('========================================');
-    console.log('🗺️ [Auth Controller] TEST endpoint called - CODE UPDATE VERIFIED');
-    console.log('========================================');
-    return {
-      success: true,
-      message: '测试成功',
-      timestamp: new Date().toISOString(),
-    };
-  }
 
 }

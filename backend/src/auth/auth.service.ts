@@ -89,9 +89,8 @@ export class AuthService {
     };
 
     const token = this.jwtService.sign(payload);
-    console.log('🔑 [Auth Service] Token generated successfully');
     
-    const result = {
+    return {
       access_token: token,
       user: {
         id: user.id,
@@ -101,13 +100,9 @@ export class AuthService {
         createdAt: user.createdAt,
       },
     };
-    console.log('✅ [Auth Service] Login result prepared');
-    return result;
   }
 
   async getProfile(userId: number) {
-    console.log('👤 [Auth Service] getProfile called with userId:', userId);
-    
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       select: {
@@ -125,8 +120,6 @@ export class AuthService {
         },
       },
     });
-
-    console.log('👤 [Auth Service] user found in database:', user);
     
     if (!user) {
       console.log('👤 [Auth Service] User not found, throwing UnauthorizedException');
