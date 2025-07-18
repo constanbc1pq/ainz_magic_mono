@@ -4,6 +4,10 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PrismaService } from '../../common/prisma/prisma.service';
 import { JwtPayload } from '../auth.service';
 
+console.log('🔧 [JWT Strategy File] Loading JWT Strategy module...');
+console.log('🔧 [JWT Strategy File] PassportStrategy type:', typeof PassportStrategy);
+console.log('🔧 [JWT Strategy File] Strategy type:', typeof Strategy);
+
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(private prisma: PrismaService) {

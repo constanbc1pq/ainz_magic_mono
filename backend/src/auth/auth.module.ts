@@ -7,6 +7,9 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { PrismaModule } from '../common/prisma/prisma.module';
 
+console.log('🔧 [Auth Module] Importing JwtStrategy...');
+console.log('🔧 [Auth Module] JwtStrategy type:', typeof JwtStrategy);
+
 @Module({
   imports: [
     PrismaModule,
@@ -16,7 +19,14 @@ import { PrismaModule } from '../common/prisma/prisma.module';
       signOptions: { expiresIn: '24h' },
     }),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [
+    AuthService, 
+    LocalStrategy, 
+    {
+      provide: JwtStrategy,
+      useClass: JwtStrategy,
+    },
+  ],
   controllers: [AuthController],
   exports: [AuthService],
 })
