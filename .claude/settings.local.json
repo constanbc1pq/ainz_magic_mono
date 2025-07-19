@@ -14,7 +14,9 @@
       "WebFetch(domain:docs.runpod.io)",
       "WebFetch(domain:huggingface.co)",
       "WebFetch(domain:www.gradio.app)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "Bash(sudo -u ubuntu git log --oneline -5)",
+      "Bash(sudo -u ubuntu git diff --stat HEAD)"
     ],
     "deny": []
   }

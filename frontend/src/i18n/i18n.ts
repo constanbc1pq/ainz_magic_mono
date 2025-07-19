@@ -305,6 +305,112 @@ const resources = {
         "quickUpload": "Quick Upload",
         "quickUploadDesc": "Upload 3D model files directly for processing",
         "uploadModel": "Upload Model"
+      },
+      "architecture": {
+        "title": "AinzMagic Architecture Flow",
+        "dataFlow": "Data Flow: Upload → Process → AI Magic → Download",
+        "features": "Zero Storage in Proxy | Real-time Processing | Secure & Fast",
+        "frontend": {
+          "name": "Frontend",
+          "desc": "React + TypeScript 3D Visualization",
+          "detail1": "• Three.js 3D Model Viewer",
+          "detail2": "• Real-time Status Updates",
+          "detail3": "• Multi-language Support",
+          "detail4": "• Gothic/Magic UI Theme"
+        },
+        "backend": {
+          "name": "NestJS Backend",
+          "desc": "API Server & Business Logic",
+          "detail1": "• JWT Authentication",
+          "detail2": "• File Management System",
+          "detail3": "• MySQL + Redis Storage",
+          "detail4": "• RESTful API Design"
+        },
+        "proxy": {
+          "name": "Magic Proxy",
+          "desc": "Python FastAPI Bridge",
+          "detail1": "• HF Space Connection",
+          "detail2": "• Stream Processing",
+          "detail3": "• No File Storage",
+          "detail4": "• Error Recovery"
+        },
+        "hfspace": {
+          "name": "Hugging Face Space",
+          "desc": "AI Model Hosting Platform",
+          "overview": "Hugging Face Spaces is the leading platform for hosting and deploying machine learning models and applications. It provides a seamless environment where developers can showcase their AI creations, from simple demos to complex applications, all powered by cutting-edge infrastructure including free GPU access through ZeroGPU.",
+          "detail1": "• ZeroGPU - Free NVIDIA A100 Access",
+          "detail2": "• Gradio/Streamlit Web Interface",
+          "detail3": "• Auto-scaling & Load Balancing",
+          "detail4": "• Docker Container Deployment",
+          "detail5": "• Community Hub for AI Models",
+          "detail6": "• Supports 50+ ML Frameworks",
+          "detail7": "• Private/Public Space Options"
+        },
+        "trellis": {
+          "desc": "Microsoft Image-to-3D Model",
+          "short": "Image to 3D",
+          "overview": "TRELLIS represents a breakthrough in image-to-3D generation technology developed by Microsoft Research. This advanced neural network model can transform a single 2D image into a fully-realized 3D model with remarkable accuracy and detail. By leveraging Structured LATent (SLAT) representation and sophisticated deep learning algorithms, TRELLIS delivers professional-quality 3D assets suitable for games, animation, and virtual reality applications.",
+          "detail1": "• Model: microsoft/TRELLIS-image-large",
+          "detail2": "• Structured LATent (SLAT) Representation",
+          "detail3": "• Single Image → High-quality 3D Model",
+          "detail4": "• GLB Format with PBR Materials",
+          "detail5": "• Text-prompt Guided Generation",
+          "detail6": "• Photorealistic Texture Synthesis",
+          "detail7": "• 360° View Consistency",
+          "detail8": "• State-of-the-art Reconstruction",
+          "detail9": "• Supports Complex Geometries"
+        },
+        "magic": {
+          "desc": "Seed3D Skeleton Generation",
+          "short": "3D to Skeleton",
+          "overview": "MagicArticulate is a cutting-edge AI model developed by Seed3D that revolutionizes the process of 3D model rigging and skeletal animation. This sophisticated system automatically analyzes 3D geometry and generates anatomically correct bone structures that are ready for animation. By understanding the underlying mesh topology and responding to natural language descriptions, MagicArticulate eliminates the tedious manual work traditionally required for character rigging.",
+          "detail1": "• Model: Seed3D/MagicArticulate",
+          "detail2": "• Automatic Rigging for 3D Models",
+          "detail3": "• Text-guided Skeleton Structure",
+          "detail4": "• Supports OBJ, GLB, PLY, STL Formats",
+          "detail5": "• Hierarchical Bone Generation",
+          "detail6": "• Animation-ready Joint Placement",
+          "detail7": "• Industry-standard Skeleton Export",
+          "detail8": "• Compatible with Maya/Blender",
+          "detail9": "• Real-time Preview Support"
+        }
+      },
+      "magicBook": {
+        "title": "Grimoire of System Architecture",
+        "quote": "In the realm of digital alchemy, where pixels transform into polygons and meshes gain the gift of motion, our architecture stands as a testament to the marriage of ancient wisdom and modern sorcery.",
+        "process": {
+          "title": "The Enchantment Process",
+          "image": {
+            "title": "1. Image Transformation Journey (TRELLIS):",
+            "step1": "① Click \"Create New Project\" and select \"Image to 3D Model\"",
+            "step2": "② Upload your image (JPG, PNG, or WebP format)",
+            "step3": "③ Add optional text prompt to guide the generation",
+            "step4": "④ TRELLIS processes your image and generates a 3D model",
+            "step5": "⑤ Download your GLB file and preview video"
+          },
+          "skeleton": {
+            "title": "2. Skeleton Articulation Ritual (MagicArticulate):",
+            "step1": "① Start a new project with \"3D Model to Skeleton\"",
+            "step2": "② Choose your source:",
+            "option1": "   • Upload a new 3D model file (OBJ, GLB, PLY, STL)",
+            "option2": "   • Select from your existing models in the account",
+            "option3": "   • Use output from a previous TRELLIS project",
+            "step3": "③ Enter text prompt describing desired skeleton structure",
+            "step4": "④ MagicArticulate analyzes and generates animation-ready bones",
+            "step5": "⑤ Download skeleton files (JSON, OBJ, TXT, or ZIP bundle)"
+          },
+          "workflow": {
+            "title": "3. Complete Transformation Workflow:",
+            "desc": "Image → TRELLIS → 3D Model → MagicArticulate → Skeletal Structure → Animated Character"
+          },
+          "tips": {
+            "title": "4. Mystical Tips:",
+            "tip1": "• Your models are saved in your account for future use",
+            "tip2": "• Text prompts enhance AI understanding of your intent",
+            "tip3": "• Multiple output formats ensure compatibility with various tools",
+            "tip4": "• Real-time status updates keep you informed during processing"
+          }
+        }
       }
     },
   },
@@ -610,6 +716,112 @@ const resources = {
         "quickUpload": "快速上传",
         "quickUploadDesc": "直接上传3D模型文件进行处理",
         "uploadModel": "上传模型"
+      },
+      "architecture": {
+        "title": "AinzMagic 架构流程",
+        "dataFlow": "数据流: 上传 → 处理 → AI魔法 → 下载",
+        "features": "代理零存储 | 实时处理 | 安全快速",
+        "frontend": {
+          "name": "前端",
+          "desc": "React + TypeScript 3D可视化",
+          "detail1": "• Three.js 3D模型查看器",
+          "detail2": "• 实时状态更新",
+          "detail3": "• 多语言支持",
+          "detail4": "• 哥特/魔法UI主题"
+        },
+        "backend": {
+          "name": "NestJS 后端",
+          "desc": "API服务器与业务逻辑",
+          "detail1": "• JWT身份验证",
+          "detail2": "• 文件管理系统",
+          "detail3": "• MySQL + Redis存储",
+          "detail4": "• RESTful API设计"
+        },
+        "proxy": {
+          "name": "魔法代理",
+          "desc": "Python FastAPI桥接",
+          "detail1": "• HF Space连接",
+          "detail2": "• 流式处理",
+          "detail3": "• 无文件存储",
+          "detail4": "• 错误恢复"
+        },
+        "hfspace": {
+          "name": "Hugging Face Space",
+          "desc": "AI模型托管平台",
+          "overview": "Hugging Face Spaces是全球领先的机器学习模型托管和部署平台。它为开发者提供了一个无缝的环境来展示他们的AI创作，从简单的演示到复杂的应用程序，全部由包括ZeroGPU免费GPU访问在内的尖端基础设施提供支持。该平台已成为AI社区的核心枢纽。",
+          "detail1": "• ZeroGPU - 免费NVIDIA A100访问",
+          "detail2": "• Gradio/Streamlit Web界面",
+          "detail3": "• 自动扩展和负载均衡",
+          "detail4": "• Docker容器部署",
+          "detail5": "• AI模型社区中心",
+          "detail6": "• 支持50+机器学习框架",
+          "detail7": "• 私有/公共空间选项"
+        },
+        "trellis": {
+          "desc": "微软图像转3D模型",
+          "short": "图像转3D",
+          "overview": "TRELLIS代表了微软研究院在图像转3D生成技术方面的重大突破。这个先进的神经网络模型能够将单张2D图像转换为完全实现的3D模型，具有卓越的准确性和细节表现。通过利用结构化潜在(SLAT)表示和先进的深度学习算法，TRELLIS能够生成适用于游戏、动画和虚拟现实应用的专业级3D资产。",
+          "detail1": "• 模型: microsoft/TRELLIS-image-large",
+          "detail2": "• 结构化潜在(SLAT)表示",
+          "detail3": "• 单张图像 → 高质量3D模型",
+          "detail4": "• GLB格式含PBR材质",
+          "detail5": "• 文本提示引导生成",
+          "detail6": "• 照片级真实纹理合成",
+          "detail7": "• 360°视角一致性",
+          "detail8": "• 最先进的重建技术",
+          "detail9": "• 支持复杂几何结构"
+        },
+        "magic": {
+          "desc": "Seed3D骨骼生成",
+          "short": "3D转骨骼",
+          "overview": "MagicArticulate是由Seed3D开发的前沿AI模型，它彻底革新了3D模型绑定和骨骼动画的制作流程。这个先进的系统能够自动分析3D几何结构并生成解剖学上正确的、可用于动画的骨骼结构。通过理解底层网格拓扑并响应自然语言描述，MagicArticulate消除了传统角色绑定工作中繁琐的手动操作。",
+          "detail1": "• 模型: Seed3D/MagicArticulate",
+          "detail2": "• 3D模型自动绑定",
+          "detail3": "• 文本引导骨骼结构",
+          "detail4": "• 支持OBJ、GLB、PLY、STL格式",
+          "detail5": "• 分层骨骼生成",
+          "detail6": "• 动画就绪关节定位",
+          "detail7": "• 行业标准骨骼导出",
+          "detail8": "• 兼容Maya/Blender",
+          "detail9": "• 实时预览支持"
+        }
+      },
+      "magicBook": {
+        "title": "系统架构魔法书",
+        "quote": "在数字炼金术的领域里，像素转化为多边形，网格获得运动天赋，我们的架构见证了古老智慧与现代魔法的结合。",
+        "process": {
+          "title": "魔法变换过程",
+          "image": {
+            "title": "1. 图像变换之旅 (TRELLIS):",
+            "step1": "① 点击\"创建新项目\"并选择\"图像生成3D模型\"",
+            "step2": "② 上传您的图像(JPG、PNG或WebP格式)",
+            "step3": "③ 添加可选文本提示以引导生成",
+            "step4": "④ TRELLIS处理您的图像并生成3D模型",
+            "step5": "⑤ 下载您的GLB文件和预览视频"
+          },
+          "skeleton": {
+            "title": "2. 骨骼构建仪式 (MagicArticulate):",
+            "step1": "① 使用\"3D模型生成骨骼\"开始新项目",
+            "step2": "② 选择您的源:",
+            "option1": "   • 上传新的3D模型文件(OBJ、GLB、PLY、STL)",
+            "option2": "   • 从账户中的现有模型中选择",
+            "option3": "   • 使用之前TRELLIS项目的输出",
+            "step3": "③ 输入描述所需骨骼结构的文本提示",
+            "step4": "④ MagicArticulate分析并生成动画就绪的骨骼",
+            "step5": "⑤ 下载骨骼文件(JSON、OBJ、TXT或ZIP包)"
+          },
+          "workflow": {
+            "title": "3. 完整变换工作流:",
+            "desc": "图像 → TRELLIS → 3D模型 → MagicArticulate → 骨骼结构 → 动画角色"
+          },
+          "tips": {
+            "title": "4. 神秘技巧:",
+            "tip1": "• 您的模型保存在账户中供将来使用",
+            "tip2": "• 文本提示增强AI对您意图的理解",
+            "tip3": "• 多种输出格式确保与各种工具的兼容性",
+            "tip4": "• 实时状态更新让您了解处理进度"
+          }
+        }
       }
     },
   },

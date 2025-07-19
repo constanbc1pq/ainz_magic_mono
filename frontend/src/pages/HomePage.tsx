@@ -24,14 +24,12 @@ import {
   Architecture as ModelIcon,
   Speed as FastIcon,
   Security as SecureIcon,
-  CloudUpload as UploadIcon,
-  Download as DownloadIcon,
-  Visibility as ViewIcon,
   Star as StarIcon,
 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import Logo from '../components/Logo/Logo';
 import { useTranslation } from 'react-i18next';
+import ArchitectureFlowChart from '../components/ArchitectureFlowChart/ArchitectureFlowChart';
 
 const Box = MuiBox as any;
 
@@ -89,17 +87,6 @@ const FeatureCard = styled(Card)(({ theme }) => ({
   },
 }));
 
-const StatsCard = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(3),
-  textAlign: 'center',
-  background: `linear-gradient(135deg, ${alpha(theme.palette.secondary.main, 0.1)} 0%, ${alpha(theme.palette.primary.main, 0.1)} 100%)`,
-  border: `1px solid ${alpha(theme.palette.secondary.main, 0.2)}`,
-  transition: 'all 0.3s ease',
-  '&:hover': {
-    transform: 'scale(1.05)',
-    border: `1px solid ${alpha(theme.palette.secondary.main, 0.5)}`,
-  },
-}));
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -142,39 +129,6 @@ const HomePage: React.FC = () => {
     },
   ];
 
-  const workflowSteps = [
-    {
-      step: 1,
-      title: t('home.workflow.step1'),
-      description: t('home.workflow.step1Desc'),
-      icon: <UploadIcon />,
-    },
-    {
-      step: 2,
-      title: t('home.workflow.step2'),
-      description: t('home.workflow.step2Desc'),
-      icon: <MagicIcon />,
-    },
-    {
-      step: 3,
-      title: t('home.workflow.step3'),
-      description: t('home.workflow.step3Desc'),
-      icon: <ViewIcon />,
-    },
-    {
-      step: 4,
-      title: t('home.workflow.step4'),
-      description: t('home.workflow.step4Desc'),
-      icon: <DownloadIcon />,
-    },
-  ];
-
-  const stats = [
-    { label: t('home.stats.modelsProcessed'), value: '10,000+' },
-    { label: t('home.stats.satisfaction'), value: '98%' },
-    { label: t('home.stats.avgProcessTime'), value: t('home.stats.avgProcessTimeValue') },
-    { label: t('home.stats.formatsSupported'), value: '8+' },
-  ];
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -411,25 +365,30 @@ const HomePage: React.FC = () => {
         )}
       </HeroSection>
 
-      {/* Stats Section */}
+      {/* Architecture Flow Chart */}
       <Box sx={{ my: 8 }}>
-        <Typography variant="h4" component="h2" textAlign="center" gutterBottom>
-          {t('home.stats.title')}
+        <Typography 
+          variant="h4" 
+          component="h2" 
+          textAlign="center" 
+          gutterBottom
+          sx={{
+            color: 'secondary.main',
+            textShadow: '0 0 10px rgba(255, 215, 0, 0.3)',
+            fontWeight: 'bold',
+          }}
+        >
+          System Architecture
         </Typography>
-        <Grid container spacing={3} sx={{ mt: 2 }}>
-          {stats.map((stat, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
-              <StatsCard elevation={2}>
-                <Typography variant="h3" component="div" color="secondary.main" gutterBottom>
-                  {stat.value}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {stat.label}
-                </Typography>
-              </StatsCard>
-            </Grid>
-          ))}
-        </Grid>
+        <Typography 
+          variant="body1" 
+          textAlign="center" 
+          color="text.secondary" 
+          sx={{ mb: 4 }}
+        >
+          Interactive flow visualization of our AI-powered 3D processing pipeline
+        </Typography>
+        <ArchitectureFlowChart />
       </Box>
 
       {/* Features Section */}
@@ -459,70 +418,6 @@ const HomePage: React.FC = () => {
                   </Typography>
                 </CardContent>
               </FeatureCard>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-
-      {/* Workflow Section */}
-      <Box sx={{ my: 8 }}>
-        <Typography variant="h4" component="h2" textAlign="center" gutterBottom>
-          {t('home.workflow.title')}
-        </Typography>
-        <Typography variant="body1" textAlign="center" color="text.secondary" sx={{ mb: 4 }}>
-          {t('home.workflow.subtitle')}
-        </Typography>
-        <Grid container spacing={3}>
-          {workflowSteps.map((step, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
-              <Paper
-                elevation={2}
-                sx={{
-                  p: 3,
-                  textAlign: 'center',
-                  height: '100%',
-                  position: 'relative',
-                  background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.05)} 0%, ${alpha(theme.palette.secondary.main, 0.05)} 100%)`,
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    transform: 'translateY(-4px)',
-                    boxShadow: `0 8px 16px ${alpha(theme.palette.secondary.main, 0.2)}`,
-                  },
-                }}
-              >
-                <Typography
-                  variant="h4"
-                  component="div"
-                  color="secondary.main"
-                  sx={{
-                    position: 'absolute',
-                    top: -10,
-                    left: 20,
-                    background: theme.palette.background.paper,
-                    px: 2,
-                    borderRadius: '50%',
-                    width: 40,
-                    height: 40,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    border: `2px solid ${theme.palette.secondary.main}`,
-                  }}
-                >
-                  {step.step}
-                </Typography>
-                <Box sx={{ mt: 2, mb: 2 }}>
-                  {React.cloneElement(step.icon, { 
-                    sx: { fontSize: 48, color: theme.palette.secondary.main } 
-                  })}
-                </Box>
-                <Typography variant="h6" component="h3" gutterBottom>
-                  {step.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {step.description}
-                </Typography>
-              </Paper>
             </Grid>
           ))}
         </Grid>
