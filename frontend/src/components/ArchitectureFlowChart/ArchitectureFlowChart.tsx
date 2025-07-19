@@ -266,11 +266,44 @@ const ArchitectureFlowChart: React.FC = () => {
           🔮 {t('architecture.title', 'AinzMagic Architecture Flow')} 🔮
         </Typography>
 
-        {/* Row 1: Frontend */}
+        {/* Row 4: AI Models */}
+        <FlowRow>
+          {modules.slice(4).map((module) => (
+            <ModuleCard
+              key={module.id}
+              elevation={4}
+              onMouseEnter={() => setHoveredModule(module.id)}
+              onMouseLeave={() => setHoveredModule(null)}
+            >
+              <Typography 
+                variant="h6" 
+                sx={{ 
+                  color: '#ffd700',
+                  fontWeight: 'bold',
+                  textShadow: '0 0 8px rgba(255, 215, 0, 0.3)',
+                  marginBottom: 1,
+                }}
+              >
+                {module.name}
+              </Typography>
+              <Typography 
+                variant="caption" 
+                sx={{ 
+                  color: '#ffcc02',
+                  marginTop: 1,
+                }}
+              >
+                {module.id === 'trellis' ? t('architecture.trellis.short', 'Image to 3D') : t('architecture.magic.short', '3D to Skeleton')}
+              </Typography>
+            </ModuleCard>
+          ))}
+        </FlowRow>
+
+        {/* Row 3: Hugging Face Space */}
         <FlowRow>
           <ModuleCard
             elevation={4}
-            onMouseEnter={() => setHoveredModule('frontend')}
+            onMouseEnter={() => setHoveredModule('hfspace')}
             onMouseLeave={() => setHoveredModule(null)}
           >
             <Typography 
@@ -282,7 +315,7 @@ const ArchitectureFlowChart: React.FC = () => {
                 marginBottom: 1,
               }}
             >
-              {modules[0].name}
+              {modules[3].name}
             </Typography>
             <Typography 
               variant="caption" 
@@ -291,7 +324,7 @@ const ArchitectureFlowChart: React.FC = () => {
                 marginTop: 1,
               }}
             >
-              {modules[0].description}
+              {modules[3].description}
             </Typography>
           </ModuleCard>
         </FlowRow>
@@ -328,12 +361,12 @@ const ArchitectureFlowChart: React.FC = () => {
             </ModuleCard>
           ))}
         </FlowRow>
-
-        {/* Row 3: Hugging Face Space */}
+        
+        {/* Row 1: Frontend */}
         <FlowRow>
           <ModuleCard
             elevation={4}
-            onMouseEnter={() => setHoveredModule('hfspace')}
+            onMouseEnter={() => setHoveredModule('frontend')}
             onMouseLeave={() => setHoveredModule(null)}
           >
             <Typography 
@@ -345,7 +378,7 @@ const ArchitectureFlowChart: React.FC = () => {
                 marginBottom: 1,
               }}
             >
-              {modules[3].name}
+              {modules[0].name}
             </Typography>
             <Typography 
               variant="caption" 
@@ -354,42 +387,9 @@ const ArchitectureFlowChart: React.FC = () => {
                 marginTop: 1,
               }}
             >
-              {modules[3].description}
+              {modules[0].description}
             </Typography>
           </ModuleCard>
-        </FlowRow>
-
-        {/* Row 4: AI Models */}
-        <FlowRow>
-          {modules.slice(4).map((module) => (
-            <ModuleCard
-              key={module.id}
-              elevation={4}
-              onMouseEnter={() => setHoveredModule(module.id)}
-              onMouseLeave={() => setHoveredModule(null)}
-            >
-              <Typography 
-                variant="h6" 
-                sx={{ 
-                  color: '#ffd700',
-                  fontWeight: 'bold',
-                  textShadow: '0 0 8px rgba(255, 215, 0, 0.3)',
-                  marginBottom: 1,
-                }}
-              >
-                {module.name}
-              </Typography>
-              <Typography 
-                variant="caption" 
-                sx={{ 
-                  color: '#ffcc02',
-                  marginTop: 1,
-                }}
-              >
-                {module.id === 'trellis' ? t('architecture.trellis.short', 'Image to 3D') : t('architecture.magic.short', '3D to Skeleton')}
-              </Typography>
-            </ModuleCard>
-          ))}
         </FlowRow>
 
         {/* Data Flow Indicators */}
